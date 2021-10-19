@@ -349,7 +349,9 @@ lwc lifecycle hooks
         post,put,patch==>have request body.
         callout==>create salesforce api, any one can access the api.
 
-
+There are 2 types of SOQL statements
+    1. Static SOQL
+    2. Dynamic SOQL
     
 SOQL check null
 	Null check condition for User object SOQL query
@@ -357,6 +359,7 @@ SOQL check null
 		for(User record: [SELECT id,name,alias FROM user WHERE alias = 'random' AND name = 'Random Name' LIMIT 1]) {
 		  singleUser = record;
 		}
+
 
 SOQL
     compare datetime with data==>format the datetime to date then compare
@@ -618,12 +621,24 @@ trigger design pattern
                                 Map<Id, Contact> oldRecordContactsMap = (Map<Id, Contact>) oldRecordsMap;
         
 apex naming convention
-    camelCase
-    PascaleCase
+    camelCase==>Except class name, rest of the things are in camelCase.
+    PascaleCase==>calss Name
     class name==>start with upper case==>Recipe==>PascaleCase
     method name==> start with lower case==>doThis();==>camelCase
     user is/has denote Boolean==>isEasy()
     Constants==> all in capital letter==>ALL_CAPS
+
+    class declaration
+        private,public,global
+
+    variable declaration
+        public,private,protected,global,final,static;
+        string  name;
+        final integer MAX_TEMP=550;
+    method declaration  
+        public,private,protected,global,virtual,override,static
+        
+
 
 
 datatable
