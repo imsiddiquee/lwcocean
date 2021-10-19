@@ -75,6 +75,7 @@ public with sharing class AccountService {
         public String[] types { get; set; }
     }
 
+    ///static soql retrived all records base on conditions
     @AuraEnabled(cacheable=true)
     public static PagedResult getAccounts(Filters filters, Integer currentPageNumber) {
         //filter
@@ -105,6 +106,7 @@ public with sharing class AccountService {
         return result;
     }
 
+    ///dynamic soql retrived all records base on conditions
     @AuraEnabled(cacheable=true)
     public static PagedResult getAllAccounts(Filters filters, Integer currentPageNumber) {
         //filter
@@ -130,7 +132,6 @@ public with sharing class AccountService {
             if (criteria.size() > 0) {
                 whereClause = 'WHERE ' + String.join(criteria, ' AND ');
                 System.debug(whereClause);
-
             }
         }
 
