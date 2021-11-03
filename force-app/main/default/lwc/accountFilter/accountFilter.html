@@ -1,0 +1,74 @@
+<template>
+    <lightning-card title="Filters" icon-name="standard:calibration">
+        <lightning-input label="Search Key" type="search" onchange={handleSearchKeyChange}></lightning-input>
+
+        <section>
+            <h1>Rating</h1>
+            <template if:true={ratings.data}>
+                <template for:each={ratings.data.values} for:item="rating">
+                    <lightning-input
+                        key={rating.value}
+                        label={rating.label}
+                        data-filter="ratings"
+                        data-value={rating.value}
+                        type="checkbox"
+                        checked
+                        onchange={handleCheckboxChange}
+                    ></lightning-input>
+                </template>
+            </template>
+            <template if:true={ratings.error}>
+                <c-error-panel
+                    type="inlineMessage"
+                    friendly-message="Error loading ratings"
+                    errors={ratings.error}
+                ></c-error-panel>
+            </template>
+        </section>
+
+        <section>
+            <h1>Type</h1>
+            <template if:true={accTypes.data}>
+                <lightning-combobox
+                    name="AccountType"
+                    label="Account Type"
+                    value={selectedAccountType}
+                    placeholder="Select Acc Type"
+                    options={accTypes.data.values}
+                    onchange={handleTypeChange}
+                ></lightning-combobox>
+            </template>
+            <template if:true={accTypes.error}>
+                <c-error-panel
+                    type="inlineMessage"
+                    friendly-message="Error loading acc types"
+                    errors={accTypes.error}
+                ></c-error-panel>
+            </template>
+        </section>
+
+        <section>
+            <template if:true={filteredAccounts.data}>
+                <template if:true={filteredAccounts.data.records.length}>
+                    <lightning-datatable
+                        key-field="id"
+                        data={filteredAccounts.data.records}
+                        show-row-number-column
+                        columns={columns}
+                    >
+                    </lightning-datatable>
+                </template>
+
+                <template if:false={filteredAccounts.data.records.length}>
+                    <c-error-panel
+                        type="inlineMessage"
+                        friendly-message="There are no accounts matching your current selection"
+                    ></c-error-panel>
+                </template>
+            </template>
+            <template if:true={filteredAccounts.error}>
+                <c-error-panel errors={filteredAccounts.error}></c-error-panel>
+            </template>
+        </section>
+    </lightning-card>
+</template>

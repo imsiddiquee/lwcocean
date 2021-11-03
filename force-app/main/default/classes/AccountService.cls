@@ -65,7 +65,7 @@ public with sharing class AccountService {
         }
     }
 
-    static Integer PAGE_SIZE = 5;
+    static Integer PAGE_SIZE = 20;
     public class Filters {
         @AuraEnabled
         public String searchByName { get; set; }
@@ -109,6 +109,8 @@ public with sharing class AccountService {
     ///dynamic soql retrived all records base on conditions
     @AuraEnabled(cacheable=true)
     public static PagedResult getAllAccounts(Filters filters, Integer currentPageNumber) {
+        //System.debug('filters ' + filters);
+        //System.debug('currentPageNumber ' + currentPageNumber);
         //filter
         String currentSearchByName, whereClause = '';
         String[] currentRatings, currentTypes, criteria = new List<String>{};
@@ -144,7 +146,7 @@ public with sharing class AccountService {
         result.pageNumber = currentPageNumber;
         result.totalItemCount = Database.countQuery('SELECT count() FROM Account ' + whereClause);
         result.records = Database.query(
-            'SELECT Id, Name, AccountNumber, Industry, Ownership, Type, CreatedById, LastModifiedById FROM Account ' +
+            'SELECT Id, Name, AccountNumber, Industry, Ownership,Rating, Type, CreatedById, LastModifiedById FROM Account ' +
             whereClause +
             ' WITH SECURITY_ENFORCED' +
             ' ORDER BY Name LIMIT :eachPageSize OFFSET :offset'
