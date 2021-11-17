@@ -1,0 +1,131 @@
+Org::report_pg
+imsiddiquee@cunning-goat-hwvix2.com
+tigerhunter3
+
+Org::shahin
+imsiddiquee@resourceful-panda-azytji.com
+tigerhunter3
+
+Org::shawon
+imsiddiquee@mindful-badger-tb97os.com
+tigerhunter3
+
+
+// crete id set, used id set on method.
+
+    Set<Id> conIdSet = new Set<Id>();
+    for (Contact con: (List<Contact>)Trigger.new) {
+        conIdSet.add(con.id);            
+    }
+
+    //empty check on set
+    //avoid text method execute
+    if(!Test.isRunningTest() && !conIdSet.isEmpty()){
+        OffscreenAPIHelper.sendClientContactDetails( conIdSet);
+    }
+
+    if(conIdSet <> null && !conIdSet.isEmpty()){
+    }
+
+
+//check string blank
+isBlank();
+isEmpty();
+isNotEmpty()
+isNotBlank();
+    isBlank(inputString):
+         Returns true if the specified String is white space, empty (''), or null; otherwise, returns false.
+    isEmpty(inputString) :
+         Returns true if the specified String is empty ('') or null; otherwise, returns false.
+    So the isEmpty() function is a subset of isBlank() function.
+
+
+SOQL check null
+	Null check condition for User object SOQL query
+		User singleUser; // is null
+		for(User record: [SELECT id,name,alias FROM user WHERE alias = 'random' AND name = 'Random Name' LIMIT 1]) {
+		  singleUser = record;
+		}
+
+//work on meta-data
+    //read data from custom metadata types
+        Integration_Setup__mdt intCred = [Select Endpoint__c,Password__c,Username__c from Integration_Setup__mdt where DeveloperName = 'Offscreen_Login_API' ];
+            Integration_Setup__mdt==> custom metadata types
+            Endpoint__c,Password__c,Username__c==>custom fields
+            DeveloperName==>standard field.
+
+
+apex create a user
+    https://www.levelupsalesforce.com/salesforce-create-user-in-apex
+
+    Id systemAdminProfileId = [SELECT Id FROM Profile WHERE Name = 'System Administrator' LIMIT 1].Id;
+
+    User userExample = new User();
+    userExample.Username = 'emailtest@test.com';
+    userExample.FirstName = 'First';
+    userExample.LastName = 'Last';
+    userExample.Alias = 'Alias';
+    userExample.Email = 'emailtest@test.com';
+    userExample.TimeZoneSidKey = 'America/New_York';
+    userExample.LocaleSidKey = 'en_US';
+    userExample.EmailEncodingKey = 'ISO-8859-1';
+    userExample.ProfileId = systemAdminProfileId;
+    userExample.LanguageLocaleKey = 'en_US';
+
+    insert userExample;
+
+convertion/conversion
+    string to date  ==> Date sampleDate = Date.parse('12/27/2023');//mm/dd//yyyy
+                        Date sampleDate = Date.valueOf('2023-12-23');//yyyy-mm-dd
+                        Datetime myDateTime = Datetime.newInstance(1960, 2, 17);//yyyy/mm/dd
+
+    datetime to date    ==> DateTime dT = System.now();
+                            Date d = Date.newInstance(dT.year(), dT.month(), dT.day());
+
+                            Datetime dt = (Datetime) resultSet.get('LastModifiedDate');
+                            sf.lastModifiedDate = dt.date();
+
+                            myDate = Date.ValueOf(myDateTime);
+    static date
+
+                            2021-10-31T23:59:59//YYYY-MM-DDThh:mm:ss-hh:mm
+                            2019-03-04T23:59:59Z//YYYY-MM-DDThh:mm:ssZ
+                            WHERE CreatedDate > 2005-10-08T00:00:00Z
+                            https://newbedev.com/using-a-date-for-a-datetime-field-in-a-soql-query
+                            https://www.infallibletechie.com/2019/03/how-to-query-datetime-field-in.html
+
+    object to map
+                    //Create a map of accounts mapped to the account Id
+                    Map<Id, Account> accountMap = new Map<Id, Account>([SELECT Id FROM Account LIMIT 3]);
+
+    map to set
+        	
+                    Map<String, String> colorCodes = new Map<String, String>();
+
+                    colorCodes.put('Red', 'FF0000');
+                    colorCodes.put('Blue', '0000A0');
+
+                    Set <String> colorSet = new Set<String>();
+                    colorSet = colorCodes.keySet();
+    
+    map to list
+                    Map<String, String> colorCodes = new Map<String, String>();
+
+                    colorCodes.put('Red', 'FF0000');
+                    colorCodes.put('Blue', '0000A0');
+
+                    List<String> colors = new List<String>();
+                    colors = colorCodes.values();
+
+date compare on soql
+        DateTime d = System.today().addDays(dayCount); 
+        String query= 'SELECT Id FROM Integration_Status__c WHERE Start_Time__c < ' + d.format('yyyy-MM-dd\'T\'hh:mm:ss.sss\'Z\'');
+
+
+salesforce
+		inbound==>consume
+			==>You can import that webservice and salesforce can use that to call methods from 3rd party tool.
+		outbound==>publish
+			==>3rd party tools consume it to get data/ record from your salesforce org.
+
+//work on aggregate query

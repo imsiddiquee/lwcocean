@@ -750,3 +750,10 @@ convertion/conversion
                     Map<Id, Account> accountMap = new Map<Id, Account>([SELECT Id FROM Account LIMIT 3]);
 
 
+salesforce
+		inbound==>consume
+			==>You can import that webservice and salesforce can use that to call methods from 3rd party tool.
+		outbound==>publish
+			==>3rd party tools consume it to get data/ record from your salesforce org.
+
+
