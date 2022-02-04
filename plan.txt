@@ -6,6 +6,18 @@ Org::shahin
 imsiddiquee@resourceful-panda-azytji.com
 tigerhunter3
 
+Org::shawon
+imsiddiquee@mindful-badger-tb97os.com
+tigerhunter3
+
+zendesk==free
+	create free account
+		https://www.zendesk.com/register/?ref=341#step-1
+		
+    https://practice7409.zendesk.com/access/unauthenticated        
+	    imsiddiquee@gmail.com
+	    Tigerhunter1
+
 local development server or scratch org
     //first command for local developer server
     sfdx plugins:install @salesforce/lwc-dev-server
@@ -216,11 +228,18 @@ APEX primitive data types
     Decimal price=100.50;
     String s='Hello world';
     ID id ='0124445';
+    List methods
+        size()
+        add()
+        get()
+        clear()
+        set()
 
     List to MAP
         List<Account> accList=[Select Id,Name from Account];
         Map<Id,Account> idToAccountMap=new Map<Id,Account>(accList);
         Map<Id,List<Account>> idToAccountMap=new Map<Id,List<Account>>(accList);
+
     enum is an abstract data type   
         public enum Weekdays {MON,TUE,WED,THU,FRI,SAT,SUN};
         Weekdays w=Weekdays.MON;
@@ -757,3 +776,8 @@ salesforce
 			==>3rd party tools consume it to get data/ record from your salesforce org.
 
 
+custom setting used in apex
+   if(ROC_Validation_Configuration__c.getInstance().IsRoHasFile__c==false)
+        {
+            return;
+        }

@@ -1,65 +1,692 @@
-<template>
-    <lightning-card variant="Narrow" title={componentTitle} icon-name="standard:account">
-        <div class="slds-var-p-horizontal_small">
-            <lightning-button
-                variant="brand"
-                label="Load Acc related latest opportunity"
-                title="Load Acc related latest opportunity"
-                onclick={handleLoadAccountRelatedLatestOpportunity}
-                icon-name="standard:dataset"
-                class="slds-var-p-around_xxx-small"
-            >
-            </lightning-button>
+<apex:page controller="CollectSignatureDashVFCtrl"  title="Media Consent Form" sidebar="false" showHeader="false">
+  
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />            
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            
+            <!-- <title>Nearest Warehouse</title>             -->
+            
+        
+        </head>
+        <body onload="init()">
 
-            <template if:true={accountData.length}>
-                <lightning-button
-                    variant="success"
-                    label="Sync Acc with Opp"
-                    title="Sync Acc with Opp"
-                    onclick={handleSync}
-                    icon-name="standard:loop"
-                    class="slds-var-p-around_xxx-small"
-                >
-                </lightning-button>
-            </template>
-        </div>
-        <template if:true={accountData.length}>
-            <div class="slds-var-m-around_small">
-                <lightning-badge label="Active account" class="slds-badge_inverse"></lightning-badge>
+            <style>
+                .overlay {
+                    display: none;
+                    height: 100%;
+                    left: 0;
+                    position: fixed;
+                    top: 0;
+                    opacity: 0.3;
+                    -moz-opacity: 0.3;
+                    width: 100%;
+                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+                    filter: alpha(opacity=30);
+                    background: #000;
+                    -khtml-opacity: 0.3;
+                    z-index: 1000;
+                }
+         
+                .loader {
+                    background: url('/img/loading32.gif') scroll no-repeat 0 0;
+                    width: 32px;
+                    height: 32px;
+                    position: absolute;
+                    left: 50%;
+                }
 
-                <lightning-badge label="Latest opportunity" class="slds-badge_inverse"></lightning-badge>
+                .wrapper {
+                    width: 500px;
+                    height: 250px;
+                    overflow: auto;
+                }
+            </style>
+            
+            <style>        
+                #sig-canvas {
+                border: 2px dotted #CCCCCC;
+                border-radius: 15px;
+                cursor: crosshair;
+                }
+                .mr-bottom
+                {
+                margin-bottom: 10px;
+                }
+                .float-container {                
+                padding: 10px;
+                }
+                
+                .float-child {
+                
+                display: inline-block;
+                padding: 5px;
+                
+                }  
+                
+            </style>
+            
+            <apex:slds />      
 
-                <lightning-badge label="Closed won opportunity" class="slds-badge_inverse"></lightning-badge>
+            <div id="container" style="width: 800px; margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+                <apex:form id="form" styleClass="slds-scope">    
+                  
+                  
+                <div id="load_scrl" class="loadingBox loader" style="display:none"> </div>
+                <div class="loadingBox overlay"> </div>
+                 
+                    
+                    <div id="headerImage">
+                      <img src="https://www.humourfoundation.org.au/wp-content/themes/humour-foundation/assets/images/logo.png" style="margin:10px auto;" />
+                    </div>
+                    
+                    <div id="pnlSignatureCollection" style="margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+                        <h2 class="slds-text-heading_small mr-bottom">List of Collected Signatures</h2>    
+                        <div id="emptySigneeMessage"></div>    
+                        
+                        
+
+                        <div id="divTable" class="wrapper">
+                          <center>
+                          <table width="90%" border="1" class="slds-table slds-table_cell-buffer">
+                            <tr style="text-align:center;">                            
+                              <td><b>Name</b></td>
+                              <td><b>Email</b></td>
+                            </tr>
+                            <tbody id="tbody"></tbody>
+                          </table>
+                        </center>
+                        </div>
+                      
+                        
+                    </div>
+                    
+                    <div id="successMessage">
+                      <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                        <span class="slds-assistive-text">warning</span>
+                        <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small" title="Description of icon when needed">
+                          <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                            
+                          </svg>
+                        </span>
+                        <h2>Successfully signature has been added.                          
+                        </h2>
+                     
+                      </div>
+                    </div>
+                    
+                    <div id="contactInformation" style="margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+                        <div>
+                            
+                            
+                            <h2 class="slds-text-heading_small">Add Signature</h2>    
+                            
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="consentForYourSelf" name="consentForYourSelf" />
+                                <label for="consentForYourSelf"> Consent for yourself</label>     
+                                
+                            </div>  
+                            
+                            <div class="mr-bottom">
+                                <label for="firstName" class="slds-label"> First Name</label>                          
+                                <input type="text"  class="slds-input" id="firstName" name="firstName" placeholder="First Name" required="true"/>
+                            </div>   
+                            
+                            <div class="mr-bottom">
+                                <span class="slds-required">*</span>
+                                <label for="lastName" class="slds-label"> Last Name</label>                                    
+                                <input type="text"  class="slds-input" id="lastName" name="lastName" placeholder="Last Name"/>
+                            </div> 
+                            
+                            <div class="mr-bottom">
+                                <span class="slds-required">*</span>
+                                <label for="emailAdd" class="slds-label"> Email</label>                          
+                                <input type="email"  class="slds-input" id="emailAdd" name="emailAdd" placeholder="Email"/>
+                            </div> 
+                            
+                            <div class="mr-bottom">
+                                <span class="slds-required">*</span>
+                                <label for="phone" class="slds-label"> Phone</label>                          
+                                <input type="text"  class="slds-input" id="phone" name="phone" placeholder="Phone"/>
+                            </div> 
+                            
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="consentForaDependent" name="consentForaDependent" />
+                                <label for="consentForaDependent"> Consent for a dependent</label>     
+                                
+                            </div>  
+                            
+                            <div class="mr-bottom">
+                                <label for="childAuditFirstName" class="slds-label">Child/Audit First Name</label>                          
+                                <input type="text"  class="slds-input" id="childAuditFirstName" name="childAuditFirstName" placeholder="Child/Audit First Name"/>
+                            </div> 
+                            
+                            
+                            <div class="mr-bottom">
+                                <label for="childAuditLastName" class="slds-label">Child/Audit Last Name</label>                          
+                                <input type="text"  class="slds-input" id="childAuditLastName" name="childAuditLastName" placeholder="Child/Audit Last Name"/>
+                            </div>
+                            
+                            
+                            <div class="mr-bottom">
+                                <label for="dateOfBirth" class="slds-label">DOB of consented person</label>
+                                <input type="date" class="slds-input"  id="dateOfBirth" name="dateOfBirth"/>
+                            </div>
+                            
+                            
+                            <div class="mr-bottom">
+                                <label for="description" class="slds-label"> Description(e.g. Wearing red shirt, dark brown hair)</label>                          
+                                <input type="text"  class="slds-input" id="description" name="description" placeholder="Description(e.g. Wearing red shirt, dark brown hair)"/>
+                            </div> 
+
+                            <div class="mr-bottom">
+                                <label for="postalCode" class="slds-label"> Postal Code</label>                          
+                                <input type="text"  class="slds-input" id="postalCode" name="postalCode" placeholder="PostalCode"/>
+                            </div> 
+                            
+                            
+                            
+                            <h2 class="slds-text-heading_small">Consent for</h2>
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="onlineMedia" name="onlineMedia" onclick="chkConsentFor()" />
+                                <label for="onlineMedia"> Online/Social/Electronic Media</label>     
+                                
+                            </div>  
+                            
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="partnerPresentation" name="partnerPresentation" onclick="chkConsentFor()"/>
+                                <label for="partnerPresentation">Internal The Humour Foundation use and partner presentations</label>     
+                                
+                            </div>  
+                            
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="printMedia" name="printMedia" onclick="chkConsentFor()"/>
+                                <label for="printMedia">Print media</label>       
+                                
+                            </div>  
+                            
+                            <div class="mr-bottom">
+                                <input type="checkbox" id="allOftheAbove" name="allOftheAbove" onclick="chkSelectAll()"/>
+                                <label for="allOftheAbove">All of the above</label>     
+                                
+                            </div>                    
+                            
+                        </div>
+                    </div>
+                                     
+                    
+                    <apex:outputPanel id="pnlSign">
+                        
+                        <div class="container" id="signatureInformation" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h1>E-Signature</h1>
+                                    <p>Sign in the canvas below and save your signature as an image!</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <canvas id="sig-canvas" width="800" height="160">
+                                        
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!--  <button class="btn btn-primary" id="sig-submitBtn">Submit Signature</button> -->
+                                    <button class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
+                                </div>
+                            </div>
+                            <br/>
+                            
+                            <!-- 
+<div class="row">
+<div class="col-md-12">
+<textarea id="sig-dataUrl" value="{!tempSign}"  class="form-control" rows="5">Data URL for your signature will go here!</textarea>
+
+</div>
+</div>
+<br/>
+<div class="row">
+<div class="col-md-12">
+<img id="sig-image" src="" alt="Your signature will go here!"/>
+</div>
+</div>
+-->
+                        </div>
+                    </apex:outputPanel>
+                    
+                    
+                    
+                    
+    
+
+    
+    <script type="text/javascript">
+ 
+        function startLoading() {
+            $('#load_scrl').css('top', $(document).scrollTop() + 200);
+            $('.loadingBox').show();
+        }
+ 
+        function stopLoading() {
+            $('.loadingBox').hide();
+        }
+    </script>
+                    
+                    <script>
+                    
+                    (function() {
+                        
+                        
+                        
+                        window.requestAnimFrame = (function(callback) {
+                            return window.requestAnimationFrame ||
+                                window.webkitRequestAnimationFrame ||
+                                window.mozRequestAnimationFrame ||
+                                window.oRequestAnimationFrame ||
+                                window.msRequestAnimaitonFrame ||
+                                function(callback) {
+                                window.setTimeout(callback, 1000 / 60);
+                            };
+                        })();
+                        
+                        document.getElementById('dateOfBirth').valueAsDate = new Date();
+                        var canvas = document.getElementById("sig-canvas");
+                        var ctx = canvas.getContext("2d");
+                        ctx.strokeStyle = "#222222";
+                        ctx.lineWidth = 4;
+                        
+                        var drawing = false;
+                        var mousePos = {
+                            x: 0,
+                            y: 0
+                        };
+                        var lastPos = mousePos;
+                        
+                        canvas.addEventListener("mousedown", function(e) {
+                            drawing = true;
+                            lastPos = getMousePos(canvas, e);
+                        }, false);
+                        
+                        canvas.addEventListener("mouseup", function(e) {
+                            drawing = false;
+                        }, false);
+                        
+                        canvas.addEventListener("mousemove", function(e) {
+                            mousePos = getMousePos(canvas, e);
+                        }, false);
+                        
+                        // Add touch event support for mobile
+                        canvas.addEventListener("touchstart", function(e) {
+                            
+                        }, false);
+                        
+                        canvas.addEventListener("touchmove", function(e) {
+                            var touch = e.touches[0];
+                            var me = new MouseEvent("mousemove", {
+                                clientX: touch.clientX,
+                                clientY: touch.clientY
+                            });
+                            canvas.dispatchEvent(me);
+                        }, false);
+                        
+                        canvas.addEventListener("touchstart", function(e) {
+                            mousePos = getTouchPos(canvas, e);
+                            var touch = e.touches[0];
+                            var me = new MouseEvent("mousedown", {
+                                clientX: touch.clientX,
+                                clientY: touch.clientY
+                            });
+                            canvas.dispatchEvent(me);
+                        }, false);
+                        
+                        canvas.addEventListener("touchend", function(e) {
+                            var me = new MouseEvent("mouseup", {});
+                            canvas.dispatchEvent(me);
+                        }, false);
+                        
+                        function getMousePos(canvasDom, mouseEvent) {
+                            var rect = canvasDom.getBoundingClientRect();
+                            return {
+                                x: mouseEvent.clientX - rect.left,
+                                y: mouseEvent.clientY - rect.top
+                            }
+                        }
+                        
+                        function getTouchPos(canvasDom, touchEvent) {
+                            var rect = canvasDom.getBoundingClientRect();
+                            return {
+                                x: touchEvent.touches[0].clientX - rect.left,
+                                y: touchEvent.touches[0].clientY - rect.top
+                            }
+                        }
+                        
+                        function renderCanvas() {
+                            if (drawing) {
+                                ctx.moveTo(lastPos.x, lastPos.y);
+                                ctx.lineTo(mousePos.x, mousePos.y);
+                                ctx.stroke();
+                                lastPos = mousePos;
+                            }
+                        }
+                        
+                        // Prevent scrolling when touching the canvas
+                        document.body.addEventListener("touchstart", function(e) {
+                            if (e.target == canvas) {
+                                e.preventDefault();
+                            }
+                        }, false);
+                        document.body.addEventListener("touchend", function(e) {
+                            if (e.target == canvas) {
+                                e.preventDefault();
+                            }
+                        }, false);
+                        document.body.addEventListener("touchmove", function(e) {
+                            if (e.target == canvas) {
+                                e.preventDefault();
+                            }
+                        }, false);
+                        
+                        (function drawLoop() {
+                            requestAnimFrame(drawLoop);
+                            renderCanvas();
+                        })();
+                        
+                        
+                        
+                        function clearCanvas() {
+                            canvas.width = canvas.width;
+                        }
+                        
+                        // Set up the UI
+                        var sigText = document.getElementById("sig-dataUrl");
+                        var sigImage = document.getElementById("sig-image");
+                        var clearBtn = document.getElementById("sig-clearBtn");
+                        var submitBtn = document.getElementById("sig-submitBtn");
+                        clearBtn.addEventListener("click", function(e) {
+                            clearCanvas();
+                            sigText.innerHTML = "Data URL for your signature will go here!";
+                            sigImage.setAttribute("src", "");
+                        }, false);
+                        submitBtn.addEventListener("click", function(e) {
+                            
+                            var dataUrl = canvas.toDataURL();
+                            sigText.innerHTML = dataUrl;
+                            sigImage.setAttribute("src", dataUrl);
+                        }, false);
+                        
+                    })();
+                    
+                    //url format
+                    //https://mintdev-sresource.cs114.force.com/mediaconsentform?recordid=a0u1y000000cu50AAA&saved=success
+                    function getUrlParam(index) {
+                        
+                        var result = null
+                        
+                        if(window.location.href.indexOf('?')){
+                            
+                            let part = window.location.href.split('?')[1];
+                            if(window.location.href.indexOf('&')>0)
+                            {
+                              part = part.split('&');
+                              result = part[0].split('=')[1];
+                              
+                            }                            
+                            else
+                            {                              
+                              result = part.split('=')[1];                              
+                            }                            
+                            
+                        }
+                        
+                        return result;
+                    }
+                    
+                    function getMessageParam(index) {
+                        
+                      var result = null
+                        
+                        if(window.location.href.indexOf('&') && window.location.href.indexOf('?')){
+                            
+                            let part = window.location.href.split('?')[1];                                                        
+                            if(window.location.href.indexOf('&')>0)
+                            {
+                              part = part.split('&');
+                              result = part[1].split('=')[1];
+                              
+                            }
+                            
+                        }
+                        
+                        return result;
+                    }
+                    
+                    
+                    
+                    function doNext() {
+                      
+                      //window.location.href = '/';
+                      
+                      var divHeaderImage = document.getElementById("headerImage");
+                        var divPnlSignatureCollection = document.getElementById("pnlSignatureCollection");
+
+                        var divContact = document.getElementById("contactInformation");
+                        var divSign = document.getElementById("signatureInformation");
+
+                        
+                        var btnPrevious = document.getElementById("btnPrevious");
+                        var btnNext = document.getElementById("btnNext");
+                        var btnSave = document.getElementById("btnSave");
+                        
+                        var lastName = document.getElementById("lastName");
+                        var emailAdd = document.getElementById("emailAdd");
+                        var phoneNumber = document.getElementById("phone");
+                        
+                        if (lastName.value == "") {
+                            alert("Last Name must be filled out.");
+                            lastName.focus();
+                            return false;
+                        }
+                        if (emailAdd.value == "") {
+                            alert("Email must be filled out.");
+                            emailAdd.focus();
+                            return false;
+                        }
+                        if (phoneNumber.value == "") {
+                            alert("Phone must be filled out.");
+                            phone.focus();
+                            return false;
+                        }
+                        
+                        
+                        
+                        console.log("divContact",divContact)
+                        
+                        divHeaderImage.style.display = "none";
+                        divPnlSignatureCollection.style.display = "none";
+
+                        divContact.style.display = "none";
+                        divSign.style.display = "block";
+                        
+                        btnNext.style.display = "none";
+                        btnPrevious.style.display = "block";
+                        btnSave.style.display = "block";
+                    }
+                    
+                    function doPrevious() {
+                        var divHeaderImage = document.getElementById("headerImage");
+                        var divPnlSignatureCollection = document.getElementById("pnlSignatureCollection");
+
+                        var divContact = document.getElementById("contactInformation");
+                        var divSign = document.getElementById("signatureInformation");
+                        
+                        var btnPrevious = document.getElementById("btnPrevious");
+                        var btnNext = document.getElementById("btnNext");
+                        var btnSave = document.getElementById("btnSave");
+                        
+                        divHeaderImage.style.display = "block";
+                        divPnlSignatureCollection.style.display = "block";
+
+                        divContact.style.display = "block";
+                        divSign.style.display = "none";
+                        
+                        btnNext.style.display = "block";
+                        btnPrevious.style.display = "none";
+                        btnSave.style.display = "none";
+                    }
+                    
+                    function doSave() {
+                        startLoading();
+                        var oData={
+                            Consent_for_yourself:document.querySelector("[name='consentForYourSelf']").checked,
+                            FirstName:document.querySelector("[name='firstName']").value,
+                            LastName:document.querySelector("[name='lastName']").value,
+                            Email:document.querySelector("[name='emailAdd']").value,
+                            Phone:document.querySelector("[name='phone']").value,
+                            Child_First_Name:document.querySelector("[name='childAuditFirstName']").value,
+                            Child_Last_Name:document.querySelector("[name='childAuditLastName']").value,
+                            BirthDate:document.querySelector("[name='dateOfBirth']").value,  
+                            PostalCode:document.querySelector("[name='postalCode']").value,  
+                            Description:document.querySelector("[name='description']").value,
+                            Consent_for_a_dependent:document.querySelector("[name='consentForaDependent']").checked,
+                            
+                            All_Consent:document.querySelector("[name='allOftheAbove']").checked,
+                            Online_Social_Electronic_Media:document.querySelector("[name='onlineMedia']").checked,
+                            Print_Media:document.querySelector("[name='printMedia']").checked,
+                            Internal_THF_use:document.querySelector("[name='partnerPresentation']").checked,
+                        };
+                        
+                        var recordid =getUrlParam('recordid');//"a0u1y000000cx5nAAA";//
+                        
+                        var dataUrl = document.getElementById("sig-canvas").toDataURL();
+                        
+                        
+                        CollectSignatureDashVFCtrl.processSignature(dataUrl,recordid,JSON.stringify(oData),function(result,event){
+                            if(event.status)
+                            {
+
+                              //console.log('event.status-->',event.status);
+                              //console.log('processSignature-->',recordid);
+                              stopLoading();
+                              
+                              window.location.href='/'+'mediaconsentform?recordid='+recordid+'&saved=success' ;
+                            }
+                            else
+                            {
+                                stopLoading();
+                            }
+                        });
+                        //sigText.innerHTML = dataUrl;
+                        
+
+                        
+                    }
+                    
+                    function chkSelectAll() {
+                        var allOftheAbove=document.querySelector("[name='allOftheAbove']").checked;
+                        
+                        document.querySelector("[name='onlineMedia']").checked=allOftheAbove;
+                        document.querySelector("[name='partnerPresentation']").checked=allOftheAbove;
+                        document.querySelector("[name='printMedia']").checked=allOftheAbove;
+                        
+                    }
+                    
+                    function chkConsentFor() {
+                        var allOftheAbove=true;
+                        console.log("test",document.querySelector("[name='onlineMedia']").checked);
+                        if(document.querySelector("[name='onlineMedia']").checked && document.querySelector("[name='partnerPresentation']").checked && document.querySelector("[name='printMedia']").checked)
+                        {
+                            allOftheAbove=true;  
+                        }
+                        else
+                        {
+                            allOftheAbove=false;
+                        }
+                        document.querySelector("[name='allOftheAbove']").checked=allOftheAbove;
+                        
+                        
+                        
+                        
+                    }
+
+                    function init()
+                    {     
+                       
+                      if(getMessageParam("saved")==="success")
+                      {
+                        
+                        var divSuccessMessage = document.getElementById("successMessage");
+	                      divSuccessMessage.style.display = "block";
+
+                      }
+                      else
+                      {
+                        var divSuccessMessage = document.getElementById("successMessage");
+	                      divSuccessMessage.style.display = "none";
+                      }
+                      var recordid =getUrlParam('recordid');//"a0u1y000000cx5nAAA";//
+                      var emptySigneeMessage = document.getElementById("emptySigneeMessage");
+                      var divTable = document.getElementById("divTable");
+                      
+                       
+                        CollectSignatureDashVFCtrl.getSingee(recordid,function(result,event){
+                            if(event.status)
+                            {
+                              emptySigneeMessage.style.display = "none";
+                              divTable.style.display = "block";
+                              if(result.length>0)                            
+                              {
+                                var html='';
+                                for(var i=0;i<result.length;i++)
+                                {
+                                  html+="<tr><td>"+result[i].Contact__r.Name+"</td><td>"+result[i].Contact__r.Email+"</td></tr>";
+                                }
+                                document.getElementById('tbody').innerHTML=html;
+                              }
+                              else
+                              {
+                                emptySigneeMessage.style.display = "block";
+                                divTable.style.display = "none";
+                                document.getElementById('emptySigneeMessage').innerHTML="<h4>"+"No signees available."+"</h4>";                                
+                              }
+                            }
+                            else
+                            {                              
+                              emptySigneeMessage.style.display = "block";
+                              divTable.style.display = "none";
+                              document.getElementById('emptySigneeMessage').innerHTML="<h4>"+"No signees available."+"</h4>";
+                            }                            
+                        });
+                    }
+                    </script>
+                    
+                    
+                    
+                </apex:form>
+                
+                
+                <div class="float-container">
+                    
+                    <div class="float-child">
+                        <button style="display: none;" class="slds-button slds-button_brand" name="btnPrevious" id="btnPrevious"  onclick="doPrevious()">Previous</button>
+                        <button class="slds-button slds-button_brand" name="btnNext" id="btnNext"  onclick="doNext()">Add Signature</button>
+                    </div>
+                    
+                    <div class="float-child">
+                        <button style="display: none;" class="slds-button slds-button_success" name="btnSave" id="btnSave"  onclick="doSave()">Save</button>
+                    </div>
+					
+
+                    
+                </div>
+                
+                
             </div>
-        </template>
-
-        <template if:true={showLoadingSpinner}>
-            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-        </template>
-
-        <template if:true={accountData.length}>
-            <lightning-button-icon
-                icon-name="utility:sync"
-                size="medium"
-                title="refresh"
-                variant="border-filled"
-                alternative-text="refresh Acc with Opp"
-                slot="actions"
-                onclick={handleRefresh}
-            ></lightning-button-icon>
-            <div class="slds-var-m-around_medium">
-                <template if:true={accountData.length}>
-                    <c-reusable-data-table-with-preselect
-                        data-id="accountSyncGrid"
-                        card-title="Account list"
-                        source-data={accountData}
-                        columns={accountColumns}
-                        column-boarder="true"
-                        hide-checkbox="false"
-                    >
-                    </c-reusable-data-table-with-preselect>
-                </template>
-            </div>
-        </template>
-    </lightning-card>
-</template>
+            
+            
+        </body>
+    </html>
+</apex:page>

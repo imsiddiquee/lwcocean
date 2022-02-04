@@ -8,7 +8,7 @@ tigerhunter3
 
 Org::shawon
 imsiddiquee@mindful-badger-tb97os.com
-tigerhunter3
+tigerhunter2
 
 
 // crete id set, used id set on method.
@@ -129,3 +129,75 @@ salesforce
 			==>3rd party tools consume it to get data/ record from your salesforce org.
 
 //work on aggregate query
+
+id convert 18 digit to 15 
+
+    String reporter15DigitId = String.valueOf(rt.Reporter__c).length() == 18 ? String.valueOf(rt.Reporter__c).subString(0,15): rt.Reporter__c;
+
+
+dynamic query base on searchKeyWord,ObjectName,RecordType to fetch result.
+
+    public class customLookUpController {
+        @AuraEnabled
+        public static List < sObject > fetchLookUpValues(String searchKeyWord, String ObjectName, String recordType) 
+        {
+            system.debug('ObjectName-->' + ObjectName);
+            String searchKey = searchKeyWord + '%';
+            
+            List < sObject > returnList = new List < sObject > ();
+        
+            // Create a Dynamic SOQL Query For Fetch Record List with LIMIT 5   
+            String query =  'select id, Name from ' +ObjectName + ' where Name LIKE: searchKey';
+            
+            if(!String.isBlank(recordType))
+            {
+                query = query + ' AND RecordType.Name = \'' + recordType +'\'';
+            }
+            
+            query = query + ' AND LastViewedDate != NULL ORDER BY LastViewedDate DESC limit 5';
+            
+            List < sObject > lstOfRecords = Database.query(query);
+            
+            for (sObject obj: lstOfRecords) {
+                returnList.add(obj);
+            }
+            return returnList;
+        }
+    }
+
+under date range , date between days
+
+    if(!String.isBlank(endDateString))
+    {
+        endDate = Date.valueOf(endDateString);
+    }
+    Date currentDate = Date.today();
+    Integer remainingDays = endDate >= currentDate ? currentDate.daysBetween(endDate)+1 : 0;
+    Integer actualDays = startDate.daysBetween(currentDate);
+
+get month id from month name from map
+    Map<String,String> monthMap = new Map<String,String>{'Jan'=>'1','Feb'=>'2','Mar'=>'3','Apr'=>'4','May'=>'5','Jun'=>'6','Jul'=>'7','Aug'=>'8','Sep'=>'9','Oct'=>'10','Nov'=>'11','Dec'=>'12'};
+    String monthYearKey = monthMap.get(String.valueOf(ar.get('Month__c')))
+
+from string removed the last word or character
+     finalQuery = finalQuery.removeEndIgnoreCase('AND');
+
+
+terminology
+    EA==>EINSTEIN ANALYTICS
+
+
+object id prefix
+    Object      Prefix      
+    Account     001
+    NOTE        002
+    Contact     003
+    User        005
+    Opportunity 006
+    Activity    007
+
+custom setting used in apex
+   if(ROC_Validation_Configuration__c.getInstance().IsRoHasFile__c==false)
+        {
+            return;
+        }
