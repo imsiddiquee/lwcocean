@@ -1,41 +1,31 @@
 <template>
-  <lightning-card title="Create quick case" icon-name="custom:custom19">
-    <!--show modal button on open modal-->
-    <lightning-button
-      label="Show modal"
-      onclick={handleShowModal}
-    ></lightning-button>
+    <lightning-card title="Create quick case" icon-name="custom:custom19">
+        <!--show modal button on open modal-->
+        <lightning-button label="Show modal" onclick={handleShowModal}></lightning-button>
 
-    <c-modal-component-template
-      header={header}
-      onclosedialog={handleCancelModal}
-    >
-      <!--display create record component inside unnamed slot-->
-      <template if:true={showSpinner}>
-        <c-lwc-spinner></c-lwc-spinner>
-      </template>
-      <c-create-record-from-fieldset
-        sfdc-object-api-name={sFDCobjectApiName}
-        field-set-name={fieldSetName}
-        onpostsuccess={handlePostSuccess}
-        oncmploaded={handleCreateRecordCmpLoaded}
-      ></c-create-record-from-fieldset>
+        <c-modal-component-template header={header} onclosedialog={handleCancelModal}>
+            <!--display create record component inside unnamed slot-->
+            <template if:true={showSpinner}>
+                <c-lwc-spinner></c-lwc-spinner>
+            </template>
+            <c-create-record-from-fieldset
+                sfdc-object-api-name={sFDCobjectApiName}
+                field-set-name={fieldSetName}
+                record-id="5005g000005pLKhAAM"
+                onpostsuccess={handlePostSuccess}
+                oncmploaded={handleCreateRecordCmpLoaded}
+            ></c-create-record-from-fieldset>
 
-      <!-- inject footer submit & cancel buttons into the slot-->
-      <div slot="footer">
-        <lightning-button
-          label="Cancel"
-          variant="neutral"
-          onclick={handleCancelModal}
-        ></lightning-button
-        >&nbsp;
-        <lightning-button
-          label="Submit"
-          type="submit"
-          variant="brand"
-          onclick={handleSubmitModal}
-        ></lightning-button>
-      </div>
-    </c-modal-component-template>
-  </lightning-card>
+            <!-- inject footer submit & cancel buttons into the slot-->
+            <div slot="footer">
+                <lightning-button label="Cancel" variant="neutral" onclick={handleCancelModal}></lightning-button>&nbsp;
+                <lightning-button
+                    label="Submit"
+                    type="submit"
+                    variant="brand"
+                    onclick={handleSubmitModal}
+                ></lightning-button>
+            </div>
+        </c-modal-component-template>
+    </lightning-card>
 </template>
