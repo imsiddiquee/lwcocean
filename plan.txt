@@ -18,6 +18,7 @@ zendesk==free
 	    imsiddiquee@gmail.com
 	    Tigerhunter1
 
+    
 local development server or scratch org
     //first command for local developer server
     sfdx plugins:install @salesforce/lwc-dev-server
@@ -781,3 +782,8 @@ custom setting used in apex
         {
             return;
         }
+
+zendesk steps
+    -Create named credential
+    -create remote site access.
+    
