@@ -1,0 +1,83 @@
+<template>
+    <template if:true={loader}>
+        <lightning-spinner alternative-text="Loading..." size="small"></lightning-spinner>
+    </template>
+
+    <div class="slds-box slds-theme_default">
+        <lightning-card title="Accounts">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset slds-text-title_caps">
+                        <th class="slds-is-resizable" scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th class="slds-is-resizable" scope="col">
+                            <div class="slds-truncate" title="Account Number">Account Number</div>
+                        </th>
+                        <th class="slds-is-resizable" scope="col">
+                            <div class="slds-truncate" title="Industry">Industry</div>
+                        </th>
+                        <th class="slds-is-resizable" scope="col">
+                            <div class="slds-truncate" title="Phone">Phone</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={accounts}>
+                        <template for:each={accounts} for:item="acc">
+                            <tr key={acc.Id}>
+                                <th scope="row" data-label="Name">
+                                    <div class="slds-truncate" title={acc.Name}>{acc.Name}</div>
+                                </th>
+                                <th scope="row" data-label="Account Number">
+                                    <div class="slds-truncate" title={acc.AccountNumber}>{acc.AccountNumber}</div>
+                                </th>
+                                <th scope="row" data-label="Industry">
+                                    <div class="slds-truncate" title={acc.Industry}>{acc.Industry}</div>
+                                </th>
+                                <th scope="row" data-label="Phone">
+                                    <template if:true={acc.Phone}>
+                                        <div class="slds-truncate" title={acc.Phone}>{acc.Phone}</div>
+                                    </template>
+                                </th>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+            <template if:true={isDisplayNoRecords}>
+                <div class="slds-align_absolute-center">
+                    <br />
+                    No records found
+                </div>
+            </template>
+            <br />
+            <div class="slds-align_absolute-center">
+                <div class="slds-p-right_xx-small">
+                    <lightning-button
+                        label="Prev"
+                        disabled={isPrev}
+                        onclick={handlePrev}
+                        variant="brand"
+                        icon-name="utility:back"
+                        name="prev"
+                    ></lightning-button>
+                </div>
+                <span class="slds-badge slds-badge_lightest">
+                    {recordStart}-{recordEnd} of {totalRecords} | Page {pageNumber} of {totalPages}
+                </span>
+                <div class="slds-p-left_xx-small">
+                    <lightning-button
+                        label="Next"
+                        disabled={isNext}
+                        onclick={handleNext}
+                        variant="brand"
+                        icon-name="utility:forward"
+                        icon-position="right"
+                        name="next"
+                    ></lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+</template>

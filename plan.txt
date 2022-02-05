@@ -787,3 +787,8 @@ zendesk steps
     -Create named credential
     -create remote site access.
     
+
+in aura app add lwc component
+    <aura:application extends="force:slds">
+        <c:serverSidePagination></c:serverSidePagination>
+    </aura:application> 
