@@ -46,4 +46,26 @@ public with sharing class zendesktickets {
         system.debug('getBody-->' + res.getBody());
         return res.getBody();
     }
+
+    @auraEnabled
+    public static String postATicket() {
+        String username = 'imsiddiquee@gmail.com';
+        String pword = 'Tigerhunter1';
+        Blob headerValue = Blob.valueOf(username + ':' + pword);
+        String authorizationHeader = 'BASIC ' + EncodingUtil.base64Encode(headerValue);
+        HttpRequest req = new HttpRequest();
+        req.setHeader('Authorization', authorizationHeader);
+        req.setHeader('Content-Type', 'application/json');
+        req.setEndpoint('https://practice7409.zendesk.com/api/v2/tickets.json');
+        req.setBody(
+            '{"ticket": {"type": "problem","subject": "Epic Onboarding","status": null,"priority": null,"organization_id": "361431279471","description": "test","comment": {"body": "Epic Onboarding"}}}'
+        );
+        req.setMethod('POST');
+        Http http = new Http();
+        HTTPResponse res = http.send(req);
+        if (res.getStatusCode() == 401)
+            return 'Invalid Creds';
+        system.debug('getBody-->' + res.getBody());
+        return res.getBody();
+    }
 }
