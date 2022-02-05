@@ -1,5 +1,5 @@
 public with sharing class AccountPaginationController {
-    @AuraEnabled //Get Account Records
+    @AuraEnabled(cacheable=true)
     public static String getAccountList(Integer pageSize, Integer pageNumber) {
         String jsonDT = '';
 
