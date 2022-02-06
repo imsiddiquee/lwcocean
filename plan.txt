@@ -795,24 +795,32 @@ in aura app add lwc component
     
  in visual force page add lightning component
 
-	 <body>
-	    <apex:includeLightning />
+	performanceReportSessionWrapperApp
+
+			<aura:application extends="ltng:outApp" access="global" implements="ltng:allowGuestAccess">
+				<aura:dependency resource="c:performerReportPublicAura"/>
+			</aura:application>
 
 
-	    <div id="container" style=" margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
-		<img src="/mediaconsentform/resource/clown_doctor_logo" style="margin:10px auto;width:100%; max-width: 800px; height: auto;" /><hr/>
+	visual force page
+		 <body>
+		    <apex:includeLightning />
 
-	    </div>
 
-	    <script>
+		    <div id="container" style=" margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+			<img src="/mediaconsentform/resource/clown_doctor_logo" style="margin:10px auto;width:100%; max-width: 800px; height: auto;" /><hr/>
 
-		$Lightning.use("c:performanceReportSessionWrapperApp", function() {
-		    $Lightning.createComponent("c:listSessionsForPerformanceReport",
-			{},
-			"container",
-			function(cmp) { }
-		    );
-		});
+		    </div>
 
-	    </script>
-	</body>
+		    <script>
+
+			$Lightning.use("c:performanceReportSessionWrapperApp", function() {
+			    $Lightning.createComponent("c:listSessionsForPerformanceReport",
+				{},
+				"container",
+				function(cmp) { }
+			    );
+			});
+
+		    </script>
+		</body>
