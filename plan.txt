@@ -792,3 +792,27 @@ in aura app add lwc component
     <aura:application extends="force:slds">
         <c:serverSidePagination></c:serverSidePagination>
     </aura:application> 
+    
+ in visual force page add lightning component
+
+	 <body>
+	    <apex:includeLightning />
+
+
+	    <div id="container" style=" margin:20px auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+		<img src="/mediaconsentform/resource/clown_doctor_logo" style="margin:10px auto;width:100%; max-width: 800px; height: auto;" /><hr/>
+
+	    </div>
+
+	    <script>
+
+		$Lightning.use("c:performanceReportSessionWrapperApp", function() {
+		    $Lightning.createComponent("c:listSessionsForPerformanceReport",
+			{},
+			"container",
+			function(cmp) { }
+		    );
+		});
+
+	    </script>
+	</body>
