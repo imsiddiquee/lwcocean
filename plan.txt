@@ -802,6 +802,7 @@ in aura app add lwc component
 			</aura:application>
 
 
+    https://newstechnologystuff.com/2019/05/27/use-lightning-web-components-in-visualforce/
 	visual force page
 		 <body>
 		    <apex:includeLightning />
