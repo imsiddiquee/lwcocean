@@ -1,7 +1,9 @@
 import { LightningElement } from "lwc";
+// import getAccounts from '@salesforce/apex/AccountSearchCls.getAccounts';
 
 export default class MySserviceTileList extends LightningElement {
     showBack = false;
+    accountName = "";
     handleShowElement(event) {
         this.removedCss();
         let targetId = event.target.dataset.targetId;
@@ -35,4 +37,22 @@ export default class MySserviceTileList extends LightningElement {
 
         this.addClass("myDashboard");
     }
+
+    handleKeyChange(event) {
+        const searchString = event.target.value;
+        window.clearTimeout(this.delayTimeout);
+        this.delayTimeout = setTimeout(() => {
+            this.accountName = searchString;
+        }, DELAY);
+    }
+
+    // @wire(getAccounts,{actName:'$accountName'})
+    // retrieveAccouts({error,data}){
+    //     if(data){
+    //         this.accountList = data;
+    //     }
+    //     else if(error){
+
+    //     }
+    // }
 }

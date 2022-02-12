@@ -180,7 +180,11 @@
                         ></lightning-input>
                     </div>
 
-                    <lightning-button label="Search" onclick={handleSearchKeyword} variant="brand"></lightning-button>
+                    <!-- <lightning-button label="Search" onclick={handleSearchKeyword} variant="brand"></lightning-button> -->
+
+                    <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search" value={accountName}>
+
+                    </lightning-input>
 
                     <table>
                         <thead>
