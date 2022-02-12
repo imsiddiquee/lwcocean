@@ -1,0 +1,361 @@
+<template>
+    <div>
+        <div class="mainClass">
+            <template if:true={showBack}>
+                <button
+                    class="slds-button slds-button_neutral nav-button nav-button-back slds-text-align_center"
+                    onclick={handleBack}
+                >
+                    <lightning-button-icon
+                        icon-name="utility:back"
+                        variant="bare-inverse"
+                        alternative-text="Back"
+                        title="Back"
+                    ></lightning-button-icon>
+                    <span>Back</span>
+                </button>
+            </template>
+
+            <div></div>
+
+            <div data-id="myDashboard" class="showElement">
+                <div class="container">
+                    <div class="container card-3-col">
+                        <div
+                            data-target-id="mySession"
+                            onclick={handleShowElement}
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">My Session</span>
+                        </div>
+
+                        <div
+                            data-target-id="myClient"
+                            onclick={handleShowElement}
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">My Client</span>
+                        </div>
+                        <div
+                            data-target-id="myBooking"
+                            onclick={handleShowElement}
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">Make a booking</span>
+                        </div>
+                        <div
+                            data-target-id="myCalendar"
+                            onclick={handleShowElement}
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">My Calendar</span>
+                        </div>
+                        <div
+                            data-target-id="myReport"
+                            onclick={handleShowElement}
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">My Reports</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-id="mySession" class="hideElement">
+                <div class="container">
+                    <div class="hello-text text-medium text-xl">My Session</div>
+                </div>
+                <div>
+                    <div class="text-medium text-l">
+                        <div class="text-bold">This week's session</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Barbara</td>
+                                <td>p.</td>
+                                <td>02-02,...</td>
+                            </tr>
+                            <tr>
+                                <td>Pauline</td>
+                                <td>k.</td>
+                                <td>03-03,...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <div class="text-medium text-l">
+                        <div class="text-bold">This Month's session</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Barbara</td>
+                                <td>p.</td>
+                                <td>02-02,...</td>
+                            </tr>
+                            <tr>
+                                <td>Pauline</td>
+                                <td>k.</td>
+                                <td>03-03,...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="text-medium text-l">
+                        <div class="text-bold">Last Month's session</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Barbara</td>
+                                <td>p.</td>
+                                <td>02-02,...</td>
+                            </tr>
+                            <tr>
+                                <td>Pauline</td>
+                                <td>k.</td>
+                                <td>03-03,...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div data-id="myClient" class="hideElement">
+                <div class="container">
+                    <div class="hello-text text-medium text-xl">My Client</div>
+                </div>
+                <div class="container-4fr">
+                    <div class="flex-card user-card">
+                        <div class="avatar">
+                            <span class="icon-xl"></span>
+                        </div>
+                        <div class="user-info-text">
+                            <div class="text-bold">Saiful</div>
+                            <div class="residence-since text-grey">
+                                <!-- Residence since <lightning:formattedDateTime value="Residence since 1 Oct 2012" /> -->
+
+                                Residence since
+
+                                <lightning-formatted-date-time value="1547250828000"></lightning-formatted-date-time>
+                            </div>
+                            <div class="user-residence">123, Sydney</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- <lightning:input aura:id="enter-search" name="enter-search" label="Search Client" type="search" /> -->
+
+                    <div class="slds-m-bottom_small">
+                        <lightning-input
+                            type="text"
+                            value={searchValue}
+                            label="Contact Name"
+                            onchange={searchKeyword}
+                        ></lightning-input>
+                    </div>
+
+                    <lightning-button label="Search" onclick={handleSearchKeyword} variant="brand"></lightning-button>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Client Type</th>
+                                <th>Linus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Anna ble</td>
+                                <td>Private(Square)</td>
+                            </tr>
+
+                            <tr>
+                                <td>Chloe F</td>
+                                <td>B2B</td>
+                            </tr>
+
+                            <tr>
+                                <td>Barbara C</td>
+                                <td>Hybrid C</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div data-id="myBooking" class="hideElement">
+                <div>
+                    <div class="container">
+                        <div class="hello-text text-medium text-xl">Make a Booking</div>
+                    </div>
+                    <div class="container card-3-col">
+                        <div
+                            aura:id="btnMyProfile"
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">Make a booking</span>
+                        </div>
+
+                        <div
+                            aura:id="btnMyProfile"
+                            class="flex-card hub-card elementCursor"
+                            data-label="My Session"
+                            data-name="my-profile"
+                            data-title=""
+                        >
+                            <span class="icon-l"></span>
+                            <span class="text-medium text-l">Notify admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-id="myCalendar" class="hideElement">
+                <div>
+                    <div class="container">
+                        <div class="hello-text text-medium text-xl">My calendar</div>
+                    </div>
+                    <div class="month">
+                        <ul>
+                            <li class="prev">&#10094;</li>
+                            <li class="next">&#10095;</li>
+                            <li>August<br /><span style="font-size: 18px">2021</span></li>
+                        </ul>
+                    </div>
+
+                    <ul class="weekdays">
+                        <li>Mo</li>
+                        <li>Tu</li>
+                        <li>We</li>
+                        <li>Th</li>
+                        <li>Fr</li>
+                        <li>Sa</li>
+                        <li>Su</li>
+                    </ul>
+
+                    <ul class="days">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li><span class="active">10</span></li>
+                        <li>11</li>
+                        ...etc
+                    </ul>
+                </div>
+            </div>
+
+            <div data-id="myReport" class="hideElement">
+                <div class="container">
+                    <div class="hello-text text-medium text-xl">My Report</div>
+                </div>
+
+                <div>
+                    <div class="text-medium text-l">
+                        <div class="text-bold">This Month</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Attended duration</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>11.5 hours</td>
+                            </tr>
+                            <tr>
+                                <td>Client assisted</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>Sum of mentors fees</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>$2800</td>
+                            </tr>
+                            <tr>
+                                <td>Sum of out fees</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>$50.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr />
+                <div>
+                    <div class="text-medium text-l">
+                        <div class="text-bold">Last Month</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Attended duration</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>35 hours</td>
+                            </tr>
+                            <tr>
+                                <td>Client assisted</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>Sum of mentors fees</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>$600.00</td>
+                            </tr>
+                            <tr>
+                                <td>Sum of out fees</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td>$125.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Make sure you send your invoice on the first of every month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
