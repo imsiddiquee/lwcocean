@@ -1,8 +1,11 @@
 <template>
-    <lightning-record-edit-form record-id={recordId} object-api-name={sfdcObjectApiName} onsuccess={handleSuccess}>
-        <lightning-messages></lightning-messages>
-        <template for:each={inputFieldAPIs} for:item="item">
-            <lightning-input-field field-name={item} key={item} id={item}> </lightning-input-field>
-        </template>
-    </lightning-record-edit-form>
+    <template for:each={listOfFields} for:item="item">
+        <c-create-custom-component
+            key={item.fieldPath}
+            item-type={item.type}
+            item-key={item.fieldPath}
+            item-placeholder={item.fieldPath}
+            item-value=""
+        ></c-create-custom-component>
+    </template>
 </template>

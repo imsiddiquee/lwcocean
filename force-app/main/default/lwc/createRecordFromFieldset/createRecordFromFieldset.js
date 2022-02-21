@@ -6,10 +6,11 @@ export default class CreateRecordFromFieldset extends LightningElement {
     lblobjectName; //this displays the Object Name whose records are getting displayed
     inputFieldAPIs = [];
     renderCall = false;
+    listOfFields = [];
 
     //get its value from container component through attributes
-    @api sfdcObjectApiName; //Case
-    @api fieldSetName; //QuickCaseFS
+    @api sfdcObjectApiName = "Case"; //Case
+    @api fieldSetName = "QuickCaseFS"; //QuickCaseFS
 
     @api recordId = "";
 
@@ -30,13 +31,15 @@ export default class CreateRecordFromFieldset extends LightningElement {
                 let objStr = JSON.parse(data);
                 //get the list of fields, its a reverse order to extract from map
                 let listOfFields = JSON.parse(Object.values(objStr)[1]);
+                this.listOfFields = listOfFields;
                 //get the object name
                 this.lblobjectName = Object.values(objStr)[0];
                 //prepare items array using field api names
                 listOfFields.map((element) => items.push(element.fieldPath));
 
                 this.inputFieldAPIs = items;
-                console.log("inputFieldAPIs", this.inputFieldAPIs);
+                console.log("listOfFields-->", listOfFields);
+                console.log("inputFieldAPIs-->", this.inputFieldAPIs);
                 console.log(this.inputFieldAPIs);
                 this.error = undefined;
             })
