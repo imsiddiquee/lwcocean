@@ -21,19 +21,89 @@ public with sharing class FieldSetHelper {
 
             for (roFieldSetMember currentItem : fieldSetMemberList) {
                 if (currentItem.type == 'picklist') {
-                    currentItem.pickListOptions = new List<SelectOption>();
-                    currentItem.pickListOptions = getPicklistValues(sObj, currentItem.fieldPath);
+                    currentItem.pickListOptions = new Map<String, String>();
+                    currentItem.pickListOptions = getPicklistValuesMap(
+                        sObj?.getSObjectType()?.getDescribe()?.getLabel(),
+                        currentItem.fieldPath
+                    ); //getPicklistValues(sObj, currentItem.fieldPath);
+                }
+            }
+
+            //"type": "reference"
+            Set<String> refIds = new Set<String>();
+            Map<String, roFieldSetMember> fieldMemberMap = new Map<String, roFieldSetMember>();
+
+            for (roFieldSetMember currentField : fieldSetMemberList) {
+                fieldMemberMap.put(currentField.fieldPath, currentField);
+            }
+
+            for (roFieldSetMember currentField : fieldSetMemberList) {
+                if (currentField.type == 'reference') {
+                    refIds.add(currentField.fieldPath);
+                }
+            }
+
+            System.debug('refIds-->' + refIds);
+
+            for (FieldDefinition currentDefinition : [
+                SELECT QualifiedApiName, DeveloperName
+                FROM FieldDefinition
+                WHERE EntityDefinition.QualifiedApiName = 'Case' AND QualifiedApiName IN :refIds
+            ]) {
+                System.debug(currentDefinition.QualifiedApiName);
+                if (fieldMemberMap.containsKey(currentDefinition.QualifiedApiName)) {
+                    roFieldSetMember obj = fieldMemberMap.get(currentDefinition.QualifiedApiName);
+                    System.debug('field-QualifiedApiName-->' + currentDefinition.QualifiedApiName);
+                    System.debug('field-DeveloperName-->' + currentDefinition.DeveloperName);
+                    obj.targetObjectAPIName = currentDefinition.QualifiedApiName.contains('__c')
+                        ? currentDefinition.QualifiedApiName
+                        : currentDefinition.DeveloperName;
                 }
             }
 
             // roFieldSetMember.parse(JSON.serialize(lstFSMember));
 
-            System.debug('FIELD_LIST-->' + fieldSetMemberList);
+            System.debug('FIELD_LIST3-->' + fieldSetMemberList);
+            System.debug('FIELD_LIST2-->' + JSON.serialize(fieldSetMemberList));
             System.debug('OBJECT_LABEL-->' + sObj?.getSObjectType()?.getDescribe()?.getLabel());
+
+            returnMap.put('FIELD_LIST_data', JSON.serialize(fieldSetMemberList));
 
             return JSON.serialize(returnMap);
         }
         return null;
+    }
+
+    public static Map<String, String> getPicklistValuesMap(String objectAPIName, String fieldAPIName) {
+        // * Initializing picklist field map to story value and label of picklist entries
+        Map<String, String> picklistFieldMap = new Map<String, String>();
+
+        // * Getting the field result for the current field
+        Schema.DescribeFieldResult fieldResult = Schema.getGlobalDescribe()
+            .get(objectAPIName)
+            .getDescribe()
+            .fields.getMap()
+            .get(fieldAPIName)
+            .getDescribe();
+
+        // * Checking if the field type is a picklist
+        if (fieldResult.getType() == Schema.DisplayType.Picklist) {
+            // * Getting all picklist entries
+            List<Schema.PicklistEntry> picklistEntries = fieldResult.getPicklistValues();
+
+            // * Looping over all picklist entries one by one
+            for (Schema.PicklistEntry picklistEntry : picklistEntries) {
+                // * If the picklist entry is active, getting the label and value and putting those in map
+                if (picklistEntry.isActive()) {
+                    String picklistLabel = picklistEntry.getLabel();
+                    String picklistValue = picklistEntry.getValue();
+                    picklistFieldMap.put(picklistValue, picklistLabel);
+                }
+            }
+        }
+
+        // * Returning the picklist field map
+        return picklistFieldMap;
     }
 
     private static list<SelectOption> getPicklistValues(SObject obj, String fld) {
@@ -96,21 +166,23 @@ public with sharing class FieldSetHelper {
     public with sharing class roFieldSetMember {
         public Boolean dbRequired { get; set; }
         public String fieldPath { get; set; }
+        public String targetObjectAPIName { get; set; }
         public String label { get; set; }
         public Boolean required { get; set; }
         public String type { get; set; }
         public String typeApex { get; set; }
-        public List<SelectOption> pickListOptions { get; set; }
+        public Map<String, String> pickListOptions { get; set; }
 
         public roFieldSetMember() {
             System.debug('roFieldSetMember-->');
             dbRequired = false;
             fieldPath = '';
+            targetObjectAPIName = '';
             label = '';
             required = false;
             type = '';
             typeApex = '';
-            pickListOptions = new List<SelectOption>();
+            pickListOptions = new Map<String, String>();
         }
 
         // {"dbRequired":false,"fieldPath":"AccountId","label":"Account ID","required":false,"type":"reference","typeApex":"REFERENCE"

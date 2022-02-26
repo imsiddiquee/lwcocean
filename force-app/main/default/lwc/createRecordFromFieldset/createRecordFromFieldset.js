@@ -2,6 +2,65 @@ import { LightningElement, api } from "lwc";
 import getFieldsFromFieldSet from "@salesforce/apex/FieldSetHelper.getFieldsFromFieldSet";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
+/**
+ * dependent components are
+ * createRecordFromFieldset
+CreateCustomComponent
+CustomLookupComp
+FieldSetHelper
+ */
+
+// [
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "Status",
+//         "label": "Status",
+//         "required": false,
+//         "type": "picklist",
+//         "typeApex": "PICKLIST"
+//     },
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "AccountId",
+//         "label": "Account ID",
+//         "required": false,
+//         "type": "reference",
+//         "typeApex": "REFERENCE"
+//     },
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "Subject",
+//         "label": "Subject",
+//         "required": false,
+//         "type": "string",
+//         "typeApex": "STRING"
+//     },
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "Origin",
+//         "label": "Case Origin",
+//         "required": false,
+//         "type": "picklist",
+//         "typeApex": "PICKLIST"
+//     },
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "Description",
+//         "label": "Description",
+//         "required": false,
+//         "type": "textarea",
+//         "typeApex": "TEXTAREA"
+//     },
+//     {
+//         "dbRequired": false,
+//         "fieldPath": "ClosedDate",
+//         "label": "Closed Date",
+//         "required": false,
+//         "type": "datetime",
+//         "typeApex": "DATETIME"
+//     }
+// ]
+
 export default class CreateRecordFromFieldset extends LightningElement {
     lblobjectName; //this displays the Object Name whose records are getting displayed
     inputFieldAPIs = [];
@@ -29,11 +88,13 @@ export default class CreateRecordFromFieldset extends LightningElement {
 
                 //get the entire map
                 let objStr = JSON.parse(data);
+                console.log(objStr);
                 //get the list of fields, its a reverse order to extract from map
-                let listOfFields = JSON.parse(Object.values(objStr)[1]);
+                let listOfFields = JSON.parse(Object.values(objStr)[0]);
+                console.log("listOfFields-->", listOfFields);
                 this.listOfFields = listOfFields;
                 //get the object name
-                this.lblobjectName = Object.values(objStr)[0];
+                this.lblobjectName = Object.values(objStr)[1];
                 //prepare items array using field api names
                 listOfFields.map((element) => items.push(element.fieldPath));
 

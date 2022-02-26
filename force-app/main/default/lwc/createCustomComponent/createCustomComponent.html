@@ -1,5 +1,32 @@
 <template>
-    <lightning-input type={itemType} label={itemPlaceholder} placeholder={itemPlaceholder}></lightning-input>
+    <template if:true={showTextBox}>
+        <lightning-input type={itemType} label={itemPlaceholder} placeholder={itemPlaceholder}></lightning-input>
+    </template>
+
+    <template if:true={showPickList}>
+        <lightning-card title="Select List with Profile List from apex" icon-name="custom:custom67">
+            <template if:true={profileOptionsList}>
+                <div class="slds-m-around_medium">
+                    <select
+                        onchange={handleProfileChange}
+                        data-id="selectId"
+                        class="slds-select selectProfileList"
+                        name="selectuser"
+                    >
+                        <option value="">--None--</option>
+                        <template for:each={profileOptionsList} for:item="item">
+                            <option value={item.value} key={item.value}>{item.label}</option>
+                        </template>
+                    </select>
+                    <p>Selected Profile is:<b>{selectedProfile}</b></p>
+                </div>
+            </template>
+        </lightning-card>
+    </template>
+
+    <template if:true={showLookup}>
+        <c-custom-lookup-comp target-object-name={targetObjectName}> </c-custom-lookup-comp>
+    </template>
 
     <!-- <lightning-input type="datetime" name="input1" label="Enter a date/time value"></lightning-input> -->
 </template>
