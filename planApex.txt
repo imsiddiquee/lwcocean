@@ -121,6 +121,9 @@ date compare on soql
         DateTime d = System.today().addDays(dayCount); 
         String query= 'SELECT Id FROM Integration_Status__c WHERE Start_Time__c < ' + d.format('yyyy-MM-dd\'T\'hh:mm:ss.sss\'Z\'');
 
+soql date format
+    SELECT Id, IsDeleted, Name, Type, format(CreatedDate) FROM Account
+
 
 salesforce
 		inbound==>consume
