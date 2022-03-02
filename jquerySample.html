@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>class demo</title>
+        <style>
+            div,
+            span {
+                width: 120px;
+                height: 40px;
+                float: left;
+                padding: 10px;
+                margin: 10px;
+                background-color: #eeeeee;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    </head>
+    <body>
+        <div class="notMe showElement">
+            div class="notMe"
+            <div class="showElement">hello</div>
+            <div class="showElement">hello2</div>
+            <div class="showElement2">hello3</div>
+        </div>
+        <div class="myClass">div class="myClass"</div>
+        <span class="myClass">span class="myClass"</span>
+
+        <script>
+            $(".myClass").css("border", "3px solid red");
+
+            $("div.showElement").addClass("hiTo");
+            $("div.showElement").removeClass("showElement");
+
+            $(document).ready(function () {});
+        </script>
+    </body>
+</html>

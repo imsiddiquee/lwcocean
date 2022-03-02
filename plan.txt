@@ -830,3 +830,24 @@ apex how to check the id/recordid type
 
     String.valueOf( newTask.WhatId ).startsWith( '006' ) or
     newTask.WhatId.getSobjectType() == Opportunity.SObjectType
+
+
+javascript/jquery events
+
+    $(document).ready(function(){
+        
+    });
+
+    $("div.showElement").addClass("hiTo");
+    $("div.showElement").removeClass("showElement");
+
+        $(".grandaidsLandingPage").on('click', function() {
+            
+            $('.showElement').addClass('hideElement');
+            $('div').removeClass("showElement");
+            $('.grandaidsLandianItem').removeClass('hideElement');
+            $('.grandaidsLandianItem').removeClass('showElement');
+
+            $('.grandaidsLandianItem').addClass('showElement');
+
+        });
