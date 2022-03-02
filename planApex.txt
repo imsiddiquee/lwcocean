@@ -217,3 +217,8 @@ apex dynamic query ==>String.format
             Database.query(queryString);
         }
     }
+
+apex how to check the id/recordid type
+
+    String.valueOf( newTask.WhatId ).startsWith( '006' ) or
+    newTask.WhatId.getSobjectType() == Opportunity.SObjectType
