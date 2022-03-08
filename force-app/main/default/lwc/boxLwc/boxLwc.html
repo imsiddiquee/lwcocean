@@ -1,0 +1,28 @@
+<template>
+    <lightning-card variant="Narrow" title="lWC-VF Biredirectonal Communication" icon-name="custom:custom43">
+        <div class="slds-p-horizontal_small">
+            <lightning-textarea name="message" label="Message From VF" value={receivedMessage}></lightning-textarea>
+        </div>
+        <div class="slds-p-horizontal_small">
+            <lightning-input
+                type="text"
+                variant="standard"
+                onchange={handleChange}
+                name="messgaeToSend"
+                label="messgaeToSend"
+            >
+            </lightning-input>
+        </div>
+        <div class="slds-p-around_small">
+            <lightning-button
+                variant="brand"
+                label="Send to VisualForce"
+                onclick={sendMessgaeToVisualForce}
+            ></lightning-button>
+        </div>
+        <div class="slds-p-around_small">Visual Force Content</div>
+        <div class="slds-p-horizontal_small">
+            <iframe height="500" width="100%" frameborder="0" src="/apex/boxVF" onload={loadData}></iframe>
+        </div>
+    </lightning-card>
+</template>

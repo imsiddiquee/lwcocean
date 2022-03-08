@@ -1,0 +1,39 @@
+<apex:page lightningStylesheets="true" controller="VFC_DomainsController">
+    <apex:slds></apex:slds>
+    <apex:form>
+        <script>
+            // var lexOrigin = '{!lexOrigin}';
+            window.addEventListener("message", function (event) {
+                console.log('hello from VF-->', event.data);
+                if (event.origin === lexOrigin) {
+                    var receivedfromLWC = event.data;
+
+                    let outputLWC = document.getElementById('text-area-sfdc-lwc');
+                    outputLWC.innerHTML = JSON.stringify(receivedfromLWC);
+                }
+            }, false);
+
+            function sendToLigntningWC() {
+
+                let lightningOrigin = '{!lexOrigin}';
+                let textAread = document.getElementById('text-area-sfdc');
+                let messgaeToLWC = {
+                    message: textAread.value,
+                    source: 'VisualForce Page'
+                }
+                window.parent.postMessage(messgaeToLWC, lightningOrigin);
+            }
+        </script>
+        <div class="slds-grid slds-gutters slds-p-around_medium">
+            <div class="slds-col">
+                <p>Message Send To LWC</p>
+                <input type="text" id="text-area-sfdc" />
+            </div>
+            <div class="slds-col">
+                <p>Message Recieved FROM LWC</p>
+                <div id="text-area-sfdc-lwc" class="slds-box" />
+            </div>
+        </div>
+        <button class="slds-button slds-button_outline-brand" onclick="sendToLigntningWC();return false;">Send to LWC</button>
+    </apex:form>
+</apex:page>
