@@ -14,7 +14,8 @@
                 background-color: #eeeeee;
             }
         </style>
-        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="notMe showElement">
@@ -25,14 +26,82 @@
         </div>
         <div class="myClass">div class="myClass"</div>
         <span class="myClass">span class="myClass"</span>
+        <input type="button" class="btnClick" value="Click Me" />
+        <input type="button" class="btnGetParameter" value="Get Parameter" />
+        <input type="button" id="btnWithId" class="btnWithId" value="Button with Id" />
+        <input
+            type="button"
+            id="btnDataAttribute"
+            class="btnDataAttribute"
+            value="Button with data attribute"
+            data-value="90"
+        />
 
-        <script>
+        <input type="text" id="myInput" />
+        <button type="button" id="btnShowValue">Show Value</button>
+        <button type="button" id="btnShowValue" data-crm="salesforce">select element by data attribute</button>
+    </body>
+
+    <script>
+        $(document).ready(function () {
             $(".myClass").css("border", "3px solid red");
 
             $("div.showElement").addClass("hiTo");
             $("div.showElement").removeClass("showElement");
 
-            $(document).ready(function () {});
-        </script>
-    </body>
+            $(".btnClick").on("click", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.append("order", "date"); //always add
+                urlParams.set("order2", "date2"); //add or update
+                window.location.search = urlParams; //set parameters
+
+                //console.log(urlParams.get("order")); //get parametr value
+            });
+
+            $(".btnGetParameter").on("click", function (e) {
+                console.log(e);
+                const urlParams = new URLSearchParams(window.location.search);
+                console.log(urlParams.get("order")); //get parametr value
+            });
+
+            $("#btnWithId").on("click", function (e) {
+                e.preventDefault();
+                alert();
+            });
+
+            //event bind with dom
+            $(document).on("click", "#btnWithId", function () {
+                alert("button");
+            });
+            $("#btnDataAttribute").on("click", function () {
+                console.log("data attribute-->", $(this).data("value"));
+                console.log("data attribute-->", $("#btnDataAttribute").data("value"));
+                $.data(this, "value", 7);
+            });
+
+            $("#btnShowValue").on("click", function () {
+                console.log($("#myInput").val());
+                //Get
+                var bla = $("#myInput").val();
+
+                //Set
+                $("#myInput").val("demo");
+            });
+
+            $("button[data-crm='salesforce']").on("click", function () {
+                alert();
+            });
+
+            function setParam(key, value) {
+                let url = new URL(window.document.location);
+                let params = new URLSearchParams(url.search.slice(1));
+
+                if (params.has(key)) {
+                    params.set(key, value);
+                } else {
+                    params.append(key, value);
+                }
+            }
+        });
+    </script>
 </html>
