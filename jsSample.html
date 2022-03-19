@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>class demo</title>
+        <style>
+            div,
+            span {
+                width: 120px;
+                height: 40px;
+                float: left;
+                padding: 10px;
+                margin: 10px;
+                background-color: #eeeeee;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="notMe showElement">
+            div class="notMe"
+            <div class="showElement">hello</div>
+            <div class="showElement">hello2</div>
+            <div class="showElement2">hello3</div>
+        </div>
+        <div class="myClass">div class="myClass"</div>
+        <span class="myClass">span class="myClass"</span>
+        <input
+            type="button"
+            id="btnClickById"
+            class="btnClickById"
+            value="Event By Id"
+            onclick="handleOnClickById('btnClickById')"
+        />
+        <input
+            type="button"
+            id="btnClick"
+            class="btnClick"
+            value="Event by Name"
+            onclick="handleOnClickByName('myClass')"
+        />
+
+        <script type="text/javascript">
+            function handleOnClickById(controlId) {
+                let control = document.getElementById(controlId);
+                //console.log(control);
+                control.style.background = "green";
+            }
+
+            function handleOnClickByName(controlId) {
+                let control = document.getElementsByClassName(controlId);
+                //console.log(control);
+
+                control[0].style.background = "green";
+            }
+        </script>
+    </body>
+</html>

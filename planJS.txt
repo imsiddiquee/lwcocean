@@ -1,1 +1,96 @@
-dffads
+
+<script type="text/javascript"></script>
+
+
+js event binding==> without function js event bind with dom
+    <input type="button" value="Click me" id="btn"
+        onmouseover="this.style.background= 'red'; this.style.color = 'yellow'"
+        onmouseout="this.style.background= 'black'; this.style.color = 'white'" />
+
+
+js event bind with function
+        <input type="button" value="Click me" id="btn"
+        onmouseover="changeColorOnMouseOver()"
+        onmouseout="changeColorOnMouseOut()" />
+
+        <script type="text/javascript">
+            function changeColorOnMouseOver()
+            {
+                var control = document.getElementById("btn");
+                control.style.background = 'red';
+                control.style.color = 'yellow';
+            }
+
+            function changeColorOnMouseOut()
+            {
+                var control = document.getElementById("btn");
+                control.style.background = 'black';
+                control.style.color = 'white';
+            }
+        </script>
+
+js event bind with control-id
+        <input type="text" id="txtFirstName"
+        onkeyup="validateRequiredField('txtFirstName')"
+        onblur="validateRequiredField('txtFirstName')"/>
+
+        <script type="text/javascript">
+            function validateRequiredField(controlId)
+            {
+                var control = document.getElementById(controlId);
+                control.style.color = 'white';
+                if (control.value == "")
+                {
+                    control.style.background = 'red';
+                }
+                else
+                {
+                    control.style.background = 'green';
+                }
+            }
+        </script>
+
+js event bind in DOM object/separately
+
+        <input type="button" value="Click me" id="btn"/>
+
+        <script type="text/javascript">
+            document.getElementById("btn").onmouseover = changeColorOnMouseOver;
+            document.getElementById("btn").onmouseout = changeColorOnMouseOut;
+
+            function changeColorOnMouseOver()
+            {
+                this.style.background = 'red';
+                this.style.color = 'yellow';
+            }
+
+            function changeColorOnMouseOut()
+            {
+                this.style.background = 'black';
+                this.style.color = 'white';
+            }
+        </script>
+
+JavaScript using the following special methods==>addEventListener/removeEventListener
+            element.addEventListener(event, handler, phase)
+            element.removeEventListener(event, handler, phase)
+
+            <input type="button" value="Click me" id="btn"/>
+            <script type="text/javascript">
+                btn.addEventListener("mouseover", changeColorOnMouseOver, false);
+                btn.addEventListener("mouseout", changeColorOnMouseOut, false);
+                btn.removeEventListener("mouseover", changeColorOnMouseOver);
+
+                function changeColorOnMouseOver()
+                {
+                    this.style.background = 'red';
+                    this.style.color = 'yellow';
+                }
+
+                function changeColorOnMouseOut()
+                {
+                    this.style.background = 'black';
+                    this.style.color = 'white';
+                }
+            </script>
+
