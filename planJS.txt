@@ -1,6 +1,11 @@
 
 <script type="text/javascript"></script>
 
+ensure DOM is loaded
+    window.onload=function(){
+        
+    }
+
 
 js event binding==> without function js event bind with dom
     <input type="button" value="Click me" id="btn"

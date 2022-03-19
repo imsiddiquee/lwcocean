@@ -1,0 +1,50 @@
+<script type="text/javascript"></script>
+
+jQuery || $
+
+ensure DOM load
+        $().ready(function(){
+
+        });
+
+        or
+
+        $(function(){
+
+        });
+
+Id selector in jquery
+        <input id="button1" type="button" value="Click Me" />
+        $('#button1')
+
+element selector in jquery
+        $('td')==>select all td element
+        $('div a')==>select all anchor elements that are descendants of div element.        
+        $(div,span,a)==>select all div,span,anchor elements
+
+        loop on 
+                $('table tr').each(function () {
+                alert($(this).html());
+                });
+
+class selector in jquery
+        $(.small)==>select all elements with class small
+        $(.small,.big)==>select all elements with class small or big
+        $(div.small,.big)==>select div elements with class small and any element with class big
+        $(#'div2 .small')==>id element-->div2 nested element has class .small
+        $('.small.big')==>element has both class 
+        $('.small').filter('.big')
+
+attribute selector in jQuery
+        $('[attribute]')
+        $('[attribute="value"]')
+
+        $('[title]')==>select all elements that have title attribute
+        $('div[title]')==>all div element that have title attribute
+        $('title="divTitle"')==>select all element that have title attribute with value divTitle
+        $('div[title="divTitle"]')==>select all div element that have title attribute with value divTitle
+        $('div[title][style]')==>select div that has both title and style attribute.
+
+        $('div[title]').filter(function(){
+                return $(this).attr('title').toLowerCase()=='divtitle';
+        }).css();
