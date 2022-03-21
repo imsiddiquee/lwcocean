@@ -25,7 +25,7 @@
     </template>
 
     <template if:true={showLookup}>
-        <c-custom-lookup-comp target-object-name={targetObjectName}> </c-custom-lookup-comp>
+        <c-custom-lookup-comp target-object-name={targetObjectName} onselected={handleSelected}> </c-custom-lookup-comp>
     </template>
 
     <!-- <lightning-input type="datetime" name="input1" label="Enter a date/time value"></lightning-input> -->

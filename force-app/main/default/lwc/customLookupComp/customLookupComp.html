@@ -18,13 +18,13 @@
                                     <lightning-input
                                         type="text"
                                         id="combobox-id-16"
-                                        value={accountName}
+                                        value={searchText}
                                         onchange={handleKeyChange}
                                         onkeydown={handleClick}
                                         onclick={handleClick}
                                         onblur={handleClick}
                                         aria-activedescendant="option1"
-                                        label="Account"
+                                        label="Search Text"
                                         aria-autocomplete="list"
                                         aria-controls="listbox-id-12"
                                         role="textbox"
@@ -53,7 +53,7 @@
                                 <template if:true={showSearchedValues}>
                                     <div class="slds-box" style="height: 130px; overflow-y: scroll">
                                         <ul class="" role="">
-                                            <template for:each={accountList} for:item="actObj">
+                                            <template for:each={searchResultList} for:item="actObj">
                                                 <li
                                                     key={actObj.Id}
                                                     class="slds-p-around_x-small"

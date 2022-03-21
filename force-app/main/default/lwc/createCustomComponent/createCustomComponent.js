@@ -44,4 +44,8 @@ export default class CreateCustomComponent extends LightningElement {
 
         return false;
     }
+
+    handleSelected(event) {
+        console.log("payload-->", event.detail);
+    }
 }
