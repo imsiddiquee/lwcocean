@@ -1,4 +1,15 @@
 
+dom structure
+    window
+        document
+        html
+            head
+                title
+            body
+                script
+                div
+                    h1
+
 <script type="text/javascript"></script>
 
 ensure DOM is loaded
