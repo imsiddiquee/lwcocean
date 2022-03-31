@@ -1,0 +1,96 @@
+<template>
+    <div class="slds-var-p-top_small">
+        <div
+            class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            role="combobox"
+        >
+            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                <template if:false={selectedRecordId}>
+                    <lightning-input
+                        type="text"
+                        id="combobox-id-16"
+                        value={searchText}
+                        onchange={handleKeyChange}
+                        onkeydown={handleClick}
+                        onclick={handleClick}
+                        onblur={handleClick}
+                        aria-activedescendant="option1"
+                        label={controlLabel}
+                        aria-autocomplete="list"
+                        aria-controls="listbox-id-12"
+                        role="textbox"
+                        placeholder="Search..."
+                    ></lightning-input>
+                    <button
+                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right searchButtonStyle"
+                        title="Remove selected option"
+                    >
+                        <lightning-button-icon
+                            icon-name="utility:search"
+                            variant="bare"
+                            alternative-text="Search"
+                            aria-hidden="true"
+                        >
+                        </lightning-button-icon>
+                    </button>
+                </template>
+
+                <template if:true={selectedRecordId}>
+                    <!-- <label class="slds-form-element__label slds-no-flex" for="input-26">{controlLabel}</label>
+
+                    <lightning-pill
+                        class="pillWidth"
+                        label={searchText}
+                        name={searchText}
+                        data-item={selectedRecordId}
+                        onremove={handleRemoveRecord}
+                    >
+                        <lightning-icon
+                            icon-name={iconName}
+                            variant="circle"
+                            alternative-text={searchText}
+                        ></lightning-icon>
+                    </lightning-pill> -->
+
+                    <p>{controlLabel}</p>
+                    <span class="slds-input_faux" data-item={selectedRecordId}>{searchText} </span>
+                    <button
+                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right searchButtonStyle"
+                        title="Remove selected option"
+                    >
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare"
+                            alternative-text="Removed"
+                            aria-hidden="true"
+                            onclick={handleRemoveRecord}
+                        >
+                        </lightning-button-icon>
+                    </button>
+                </template>
+            </div>
+            <!-- Start : Parent Search Result -->
+            <div if:true={messageResult}>No Result Found!</div>
+            <template if:true={showSearchedValues}>
+                <div class="slds-box" style="height: 130px; overflow-y: scroll">
+                    <ul class="" role="">
+                        <template for:each={searchResultList} for:item="actObj">
+                            <li
+                                key={actObj.Id}
+                                class="slds-var-p-around_x-small"
+                                style="cursor: pointer"
+                                onclick={handleParentSelection}
+                                data-value={actObj.Id}
+                                data-label={actObj.Name}
+                            >
+                                {actObj.Name}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

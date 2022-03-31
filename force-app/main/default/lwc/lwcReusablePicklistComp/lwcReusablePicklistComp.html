@@ -1,0 +1,14 @@
+<template>
+    
+    <template if:true={pickListValues}>
+        <div class="slds-m-top_medium">
+            <lightning-combobox            
+            label={picklistControlLabel}
+            value={controlSelectedValue}
+            placeholder="Select Progress"
+            options={pickListValues}
+            onchange={handlePicklistValueChange} ></lightning-combobox>                    
+        </div>
+    </template> 
+
+</template>

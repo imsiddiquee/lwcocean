@@ -1,0 +1,19 @@
+<template>
+
+    <template if:true={processing}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="small"
+        ></lightning-spinner>
+      </template>
+    
+     <lightning-card title="Combo Box_Type Values" icon-name="custom:custom67">       
+             
+        <c-lwc-reusable-picklist-comp target-object-name="Task" target-field-name="Subject" picklist-control-label="Subject" control-key="subject" onselectedpicklistitem={handleSelectedpicklistitem}></c-lwc-reusable-picklist-comp>        
+        
+        <c-lwc-reusable-custom-lookup-comp target-object-name="Contact" control-key="Contact" control-label="Related To" onselected={handleLookupSelectedItem}> </c-lwc-reusable-custom-lookup-comp>
+
+        <c-lwc-reusable-custom-lookup-comp target-object-name="User" control-key="User" control-label="Assigned To" onselectedlookupitem={handleLookupSelectedItem}> </c-lwc-reusable-custom-lookup-comp>
+    </lightning-card> <br/>  
+
+</template>
