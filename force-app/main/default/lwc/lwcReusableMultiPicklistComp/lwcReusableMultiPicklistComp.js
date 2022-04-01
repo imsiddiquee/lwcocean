@@ -1,4 +1,4 @@
-import { api, LightningElement, wire } from 'lwc';
+import { api, LightningElement, track, wire } from 'lwc';
 import getPicklistValues from '@salesforce/apex/grandAidsClass.getPicklistValues';
 
 /**
@@ -17,6 +17,8 @@ export default class LwcReusableMultiPicklistComp extends LightningElement {
     @api targetObjectName='';
     @api targetFieldName='';
     @api controlKey='';
+
+    @track globalSelectedItems = []; //holds all the selected checkbox items
     
     controlSelectedValue;
     pickListValues;
@@ -57,18 +59,79 @@ export default class LwcReusableMultiPicklistComp extends LightningElement {
 
     handlePicklistValueChange(event)
     {
-        this.selectedSubject=event.target.value;
-        // console.log('selected value-->',event.target);
-        // console.log('selected value-->',this.selectedSubject);
+        // this.selectedSubject=event.target.value;
+        console.log('selected value-->',event.target.value);     
+        
+        if(!event.target.value)
+        {
+            console.log('invalid item');
+            return;
+        }
+        
 
-        const selectedEvent = new CustomEvent("selectedpicklistitem", {
-            detail: {
-                controlKey: this.controlKey,
-                label: this.pickListValues.find(opt => opt.value === event.target.value).label,
-                value:  event.target.value
-            }
-        });
-        // Dispatches the event.
-        this.dispatchEvent(selectedEvent);
+        let selectItemTemp = this.pickListValues.find(opt => opt.value === event.target.value);
+        // console.log('selected label-->',selectedLabel);
+        console.log('controlKey-->',this.controlKey);
+        console.log('selectItemTemp-->',selectItemTemp);
+
+         //working
+
+         //let selectItemTemp = event.detail.value;
+         
+         //this.globalSelectedItems = []; //it will hold only newly selected checkbox items.        
+         
+         /* find the value in items array which has been prepared during database call
+            and push the key/value inside selectedItems array           
+         */
+        
+
+            
+        let newSelectedItem = this.globalSelectedItems.find(element => element.value === selectItemTemp.value);
+        console.log('newSelectedItem-->',JSON.stringify(newSelectedItem));
+
+        
+
+        //arr = value: "0032v00002x7UEHAA2", label: "Arthur Song
+        if(selectItemTemp !== undefined && newSelectedItem===undefined){
+            this.globalSelectedItems.push(selectItemTemp);
+        }  
+        
+
+           
+        console.log('selectedItems-->',JSON.stringify(this.globalSelectedItems));
+
+
+         //
+               
+        // const selectedEvent = new CustomEvent("selectedpicklistitem", {
+        //     detail: {
+        //         controlKey: this.controlKey,
+        //         label: selectedLabel,
+        //         value: event.target.value
+        //     }
+        // });
+        // // Dispatches the event.
+        // this.dispatchEvent(selectedEvent);
+    }
+
+    handleRemoveRecord(event)
+    {
+        const removeItem = event.target.dataset.item; //"0032v00002x7UEHAA2"
+        
+        //this will prepare globalSelectedItems array excluding the item to be removed.
+        this.globalSelectedItems = this.globalSelectedItems.filter(item => item.value  != removeItem);
+        const arrItems = this.globalSelectedItems;
+
+        console.log('after removed globalSelectedItems',JSON.stringify(this.globalSelectedItems));
+
+        //initialize values again
+        // this.initializeValues();
+        // this.value =[]; 
+
+        // //propagate event to parent component
+        // const evtCustomEvent = new CustomEvent('remove', {   
+        //     detail: {removeItem,arrItems}
+        //     });
+        // this.dispatchEvent(evtCustomEvent);
     }
 }

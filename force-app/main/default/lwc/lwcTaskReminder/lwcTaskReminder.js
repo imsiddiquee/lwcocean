@@ -88,10 +88,14 @@ export default class LwcTaskReminder extends LightningElement {
 
         if(event.detail)
         {
+            console.log('event.detail-->',event.detail.controlKey);
+
             if(event.detail.controlKey==='subject')
-            //this.picklist_selectedSubject=event.detail.label;
-            this.picklist_selectedSubject=event.detail.value;
-            console.log('picklist_selectedSubject-->',this.picklist_selectedSubject);
+            {
+                //this.picklist_selectedSubject=event.detail.label;
+                this.picklist_selectedSubject=event.detail.value;
+                console.log('picklist_selectedSubject-->',this.picklist_selectedSubject);
+            }
         }
     }
     
