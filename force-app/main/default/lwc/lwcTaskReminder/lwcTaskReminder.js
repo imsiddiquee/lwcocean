@@ -36,9 +36,11 @@ export default class LwcTaskReminder extends LightningElement {
         if (data) {
             let dataContainer = [];
             for (let key in data) {
-                dataContainer.push({ label: key, value: data[key] });
+                if ({}.hasOwnProperty.call(data, key)) {
+                    dataContainer.push({ label: key, value: data[key] });
+                }
             }
-            console.log("dataContainer-->", dataContainer);
+            //console.log("dataContainer-->", dataContainer);
 
             this.subjectList = dataContainer;
         } else if (error) {
