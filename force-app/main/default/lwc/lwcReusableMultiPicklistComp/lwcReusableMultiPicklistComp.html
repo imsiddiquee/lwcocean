@@ -1,26 +1,31 @@
 <template>
-   
-<template if:true={pickListValues}>    
-            <p>{picklistControlLabel}</p>
-            <select data-id={pickListValues} data-item={pickListValues} onchange={handlePicklistValueChange} class="slds-select selectProfileList">
-                <option value="">Select</option>
-                <template for:each={pickListValues} for:item="item">
-                    <option value={item.value}  key={item.value}>{item.label}</option>
-                </template>
-            </select>
+    <template if:true={pickListValues}>
+        <p>{picklistControlLabel}</p>
+        <select data-id={controlKey} onchange={handlePicklistValueChange} class="slds-select selectProfileList">
+            <option value="">{hasDefaultResults}</option>
 
-            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon slds-input-has-icon_left-right" role="none">
-                <template for:each={globalSelectedItems} for:item="selectedItem">
-                    <span key={selectedItem.value}>
-                        <lightning-pill label={selectedItem.label} name={selectedItem.value} data-item={selectedItem.value}
-                            onremove={handleRemoveRecord}>
-                            <!-- <lightning-icon icon-name="utility:close" variant="circle"  size='x-small'
+            <template for:each={pickListValues} for:item="item">
+                <option value={item.value} key={item.value}>{item.label}</option>
+            </template>
+        </select>
+
+        <div
+            class="slds-form-element__control slds-input-has-icon slds-input-has-icon slds-input-has-icon_left-right"
+            role="none"
+        >
+            <template for:each={globalSelectedItems} for:item="selectedItem">
+                <span key={selectedItem.value}>
+                    <lightning-pill
+                        label={selectedItem.label}
+                        name={selectedItem.value}
+                        data-item={selectedItem.value}
+                        onremove={handleRemoveRecord}
+                    >
+                        <!-- <lightning-icon icon-name="utility:close" variant="circle"  size='x-small'
                                 alternative-text={selectedItem.label}></lightning-icon> -->
-                        </lightning-pill>
-                    </span>
-                </template>                     
-            </div>
-</template>
-    
-
+                    </lightning-pill>
+                </span>
+            </template>
+        </div>
+    </template>
 </template>
