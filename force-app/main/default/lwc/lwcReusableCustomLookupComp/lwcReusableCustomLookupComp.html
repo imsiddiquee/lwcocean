@@ -37,25 +37,9 @@
                     </button>
                 </template>
 
-                <template if:true={selectedRecordId}>
-                    <!-- <label class="slds-form-element__label slds-no-flex" for="input-26">{controlLabel}</label>
-
-                    <lightning-pill
-                        class="pillWidth"
-                        label={searchText}
-                        name={searchText}
-                        data-item={selectedRecordId}
-                        onremove={handleRemoveRecord}
-                    >
-                        <lightning-icon
-                            icon-name={iconName}
-                            variant="circle"
-                            alternative-text={searchText}
-                        ></lightning-icon>
-                    </lightning-pill> -->
-
+                <template if:true={selectedRecordId}>                 
                     <p>{controlLabel}</p>
-                    <span class="slds-input_faux" data-item={selectedRecordId}>{searchText} </span>
+                    <span class="slds-input" data-item={selectedRecordId}>{searchText} </span>
                     <button
                         class="slds-button slds-button_icon slds-input__icon slds-input__icon_right searchButtonStyle"
                         title="Remove selected option"
