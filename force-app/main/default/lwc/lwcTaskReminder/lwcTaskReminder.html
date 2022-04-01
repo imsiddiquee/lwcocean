@@ -8,6 +8,9 @@
       </template>
     
      <lightning-card title="Combo Box_Type Values" icon-name="custom:custom67">       
+
+      
+      <c-lwc-reusable-multi-picklist-comp target-object-name="Task" target-field-name="Priority" picklist-control-label="Priority" control-key="Priority" onselectedpicklistitem={handleSelectedpicklistitem}></c-lwc-reusable-multi-picklist-comp>
              
         <c-lwc-reusable-picklist-comp target-object-name="Task" target-field-name="Subject" picklist-control-label="Subject" control-key="subject" onselectedpicklistitem={handleSelectedpicklistitem}></c-lwc-reusable-picklist-comp>        
         
