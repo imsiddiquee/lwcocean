@@ -62,60 +62,44 @@ export default class LwcReusableMultiPicklistComp extends LightningElement {
             return;
         }
 
+        //get current select item
         let selectItemTemp = this.pickListValues.find((opt) => opt.value === event.target.value);
-        this.defaultSelectedItem = selectItemTemp;
-        // console.log('selected label-->',selectedLabel);
-        console.log("controlKey-->", this.controlKey);
-        console.log("selectItemTemp-->", selectItemTemp);
-
 
         let newSelectedItem = this.globalSelectedItems.find((element) => element.value === selectItemTemp.value);
         console.log("newSelectedItem-->", JSON.stringify(newSelectedItem));
 
-        //arr = value: "0032v00002x7UEHAA2", label: "Arthur Song
         if (selectItemTemp !== undefined && newSelectedItem === undefined) {
             this.globalSelectedItems.push(selectItemTemp);
         }
 
-        console.log("selectedItems-->", JSON.stringify(this.globalSelectedItems));
-
+        //default select combo-box first item.
         this.template.querySelector(`[data-id="${this.controlKey}"]`).selectedIndex = 0;
 
-        console.log(
-            'this.template.querySelector(`[data-id="txtAttendedStartDateTime"]`)',
-            this.template.querySelector(`[data-id="txtAttendedStartDateTime"]`)
-        );
-
-        //
-
-        // const selectedEvent = new CustomEvent("selectedpicklistitem", {
-        //     detail: {
-        //         controlKey: this.controlKey,
-        //         label: selectedLabel,
-        //         value: event.target.value
-        //     }
-        // });
-        // // Dispatches the event.
-        // this.dispatchEvent(selectedEvent);
+        //update parent
+        const selectedEvent = new CustomEvent("selectedmultipicklistitem", {
+            detail: {
+                controlKey: this.controlKey,
+                items: this.globalSelectedItems
+            }
+        });
+        // Dispatches the event.
+        this.dispatchEvent(selectedEvent);
     }
 
     handleRemoveRecord(event) {
-        const removeItem = event.target.dataset.item; //"0032v00002x7UEHAA2"
+        const removeItem = event.target.dataset.item;
 
         //this will prepare globalSelectedItems array excluding the item to be removed.
         this.globalSelectedItems = this.globalSelectedItems.filter((item) => item.value !== removeItem);
-        const arrItems = this.globalSelectedItems;
 
-        console.log("after removed globalSelectedItems", JSON.stringify(this.globalSelectedItems));
-
-        //initialize values again
-        // this.initializeValues();
-        // this.value =[];
-
-        // //propagate event to parent component
-        // const evtCustomEvent = new CustomEvent('remove', {
-        //     detail: {removeItem,arrItems}
-        //     });
-        // this.dispatchEvent(evtCustomEvent);
+        //update parent
+        const selectedEvent = new CustomEvent("selectedmultipicklistitem", {
+            detail: {
+                controlKey: this.controlKey,
+                items: this.globalSelectedItems
+            }
+        });
+        // Dispatches the event.
+        this.dispatchEvent(selectedEvent);
     }
 }
