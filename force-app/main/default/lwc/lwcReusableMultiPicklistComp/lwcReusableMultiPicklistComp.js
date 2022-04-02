@@ -76,7 +76,7 @@ export default class LwcReusableMultiPicklistComp extends LightningElement {
         this.template.querySelector(`[data-id="${this.controlKey}"]`).selectedIndex = 0;
 
         //update parent
-        const selectedEvent = new CustomEvent("selectedmultipicklistitem", {
+        const selectedEvent = new CustomEvent("selected_multipicklist_item", {
             detail: {
                 controlKey: this.controlKey,
                 items: this.globalSelectedItems
@@ -93,7 +93,7 @@ export default class LwcReusableMultiPicklistComp extends LightningElement {
         this.globalSelectedItems = this.globalSelectedItems.filter((item) => item.value !== removeItem);
 
         //update parent
-        const selectedEvent = new CustomEvent("selectedmultipicklistitem", {
+        const selectedEvent = new CustomEvent("selected_multipicklist_item", {
             detail: {
                 controlKey: this.controlKey,
                 items: this.globalSelectedItems
