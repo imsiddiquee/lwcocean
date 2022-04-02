@@ -3,13 +3,19 @@ import getPicklistValues from "@salesforce/apex/grandAidsClass.getPicklistValues
 
 /**
  * REUSABLE CONTROL SPECIFICATION
- * <c-lwc-reusable-picklist-comp target-object-name="Task" target-field-name="Subject" picklist-control-label="Subject" control-key="subject" onselectedpicklistitem={handleSelectedpicklistitem}></c-lwc-reusable-picklist-comp>
+ *         <c-lwc-reusable-multi-picklist-comp
+            target-object-name="Task"
+            target-field-name="Priority"
+            picklist-control-label="Priority"
+            control-key="Priority"
+            onselected_multipicklist_item={selectedmultipicklistitem}
+        ></c-lwc-reusable-multi-picklist-comp>
  *
  * target-object-name= NAME OF OBJECT WHICH HAS PICKLIST.
  * target-field-name= PICKLIST FIELD NAME
  * picklist-control-label= CONTROL DISPLAY LABEL
  * control-key= KEY HELP TO IDENTIFY SELECTED ITEM
- * onselectedpicklistitem= PARENT IMPLEMENT THE EVENT TO GET THE PICKLIST SELECTED ITEMS
+ * onselected_multipicklist_item= PARENT IMPLEMENT THE EVENT TO GET THE PICKLIST SELECTED ITEMS
  */
 
 export default class LwcReusableMultiPicklistComp extends LightningElement {
