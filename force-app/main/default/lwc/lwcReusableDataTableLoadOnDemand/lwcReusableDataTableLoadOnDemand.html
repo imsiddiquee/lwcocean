@@ -1,0 +1,23 @@
+<template>
+    <template if:true={isProcessing}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+
+    <lightning-card>
+        <p>Total Records {totalItemCount}</p>
+        <p>Display Records {accounts.length}</p>
+        <p>Selected Records {selectedItems}</p>
+        <div class="slds-box" style="height: 500px">
+            <lightning-datatable
+                key-field="id"
+                data={accounts}
+                columns={columns}
+                enable-infinite-loading
+                onloadmore={loadMoreData}
+                onrowselection={getSelectedName}
+            >
+            </lightning-datatable>
+        </div>
+        {loadMoreStatus}
+    </lightning-card>
+</template>
