@@ -110,3 +110,26 @@ JavaScript using the following special methods==>addEventListener/removeEventLis
                 }
             </script>
 
+How to exit loop, you may avoid loop used below technique
+    loop
+        let numbers=[1,2,3,4,5,6];
+            for(const number of numbers)
+            {
+                console.log(number);
+                if(number==3)
+                {
+                    break;
+                }
+            }
+            output==>1,2,3
+
+    without loop
+        numbers.some(number=>{
+            console.log(number)
+            return number===3;
+        })
+        output==>1,2,3
+
+    without loop
+        numbers.every(number=>{console.log(number); return number<3})
+        output==>1,2,3
