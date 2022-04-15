@@ -222,3 +222,28 @@ apex how to check the id/recordid type
 
     String.valueOf( newTask.WhatId ).startsWith( '006' ) or
     newTask.WhatId.getSobjectType() == Opportunity.SObjectType
+
+
+get record type/ recordtype and way to used in 
+
+        //Case Record Type Id based on Record Type Name
+        Id leadCaseTypeId= Schema.SObjectType.Case.getRecordTypeInfosByName().get('Lead Case').getRecordTypeId();
+        Id supportCaseTypeId= Schema.SObjectType.Case.getRecordTypeInfosByName().get('Support Case').getRecordTypeId();
+
+        for(Case c: Trigger.new){
+        if(c.RecordTypeId==leadCaseTypeId){ // Lead Case
+            // ...
+        } else if(c.RecordTypeId==supportCaseTypeId){ // Support Case
+            // ...
+        }
+        }
+
+from recoed type/ recordtype get the name
+
+        Map<ID, Schema.RecordTypeInfo> rtMap = Schema.SObjectType.Account.getRecordTypeInfosById();
+                for (Account newAct : newAccts.values()) {
+                    string recordTypeName = rtMap.get(newAct.RecordTypeId).getName();
+                    if (recordTypeName.equals('Practioner') && Status__c.equals('Verified')) {
+                        closeAllTasks(newAct.Id);
+                    }
+                }
