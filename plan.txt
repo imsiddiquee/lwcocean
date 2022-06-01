@@ -851,3 +851,11 @@ javascript/jquery events
             $('.grandaidsLandianItem').addClass('showElement');
 
         });
+	
+check after send mail/email, is it open or not
+	to send mail need to fill the below property
+         	mail.setSaveAsActivity(true);
+            	mail.setWhatId( o.Id );
+	below object contain mail related information it's open or not
+		object==>EmailMessage
+			field==>IsOpen
