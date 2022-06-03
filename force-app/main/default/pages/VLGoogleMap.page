@@ -1,0 +1,349 @@
+<!-- Note: To make the code functional you need to use your own google map API key. the user just needs to do one thing replace GOOGLE_MAP_API_KEY with your own key. -->
+
+<apex:page controller="StoreGoogleMapRating" standardStyleSheets="false" sidebar="false" showHeader="false">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" />
+
+
+    <title>Google map</title>
+
+    <div>
+
+        <div class="row" style="margin-top: 5px;">
+
+            <div class="col-sm-10">
+                <div>
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div id="table_container" style="width: 100%;">
+                                        <div id="table_contant">
+                                            <table class="table">
+                                                <thead id="tableHeader">
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Comment</th>
+                                                        <th>Rating</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="filterMyReportData">
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="picklisttitle">Rating</label>
+
+
+
+                                        <select id="rating" required="required" class="form-control">
+
+                                            <option class="text-success" value="1">1</option>
+                                            <option class="text-success" value="2">2</option>
+                                            <option class="text-success" value="3">3</option>
+                                            <option class="text-success" value="4">4</option>
+                                            <option class="text-success" value="5">5</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Textarea">Comment</label>
+                                        <textarea class="form-control" id="comment" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <form>
+
+                                        <button type="button" id="refresh" class="btn btn-success" onclick="Save()" style="color: white;">Submit</button>
+                                        <button type="button" class="btn btn-danger" onclick="CloseModal()" data-dismiss="modal" style="color: white;">Close</button>
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- jsFiddle will insert css and js -->
+
+                    <!--The div element for the map -->
+                    <div>
+                        <div class="container-fluid">
+                            <div>
+                                <select id="placeGroup" class="placeGroup form-select" onchange="showMarkerDetail(this)" style="width: 100%;height: 40px; margin-top:20px !important; margin-bottom: 10px !important; border: 2px solid #89b598"
+                                    placeholder="Restaurant">
+                                    <option value="restaurant" selected="selected">Restaurant</option>
+                                    <option value="bank">Bank</option>
+                                    <option value="gym">Gym</option>
+                                    <option value="park">Park</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div id="map" style="height:474px; width: 100%">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript">
+
+        (() => {
+
+        })();
+
+        // execute when the page is lood.
+        window.onload = function () {
+            const urlKey = 'placeGroup';
+            const urlParams = new URLSearchParams(window.location.search);
+            console.log(urlParams.get("placeGroup"));
+            if (urlParams.has(urlKey)) {
+                let urlKeyValue = urlParams.get(urlKey);
+                selectElement('placeGroup', urlKeyValue);
+
+            }
+            else {
+                console.log('on first load');
+                urlParams.set("placeGroup", 'Restaurant'.toLowerCase());
+                window.location.search = urlParams; //set parameters
+                selectElement('placeGroup', urlKeyValue);
+
+            }
+        }
+
+        function selectElement(id, valueToSelect) {
+            let element = document.getElementById(id);
+            element.value = valueToSelect;
+        }
+
+        let map;
+        let infowindow = null;
+
+        function createMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 23.797911, lng: 90.414391
+                },
+                zoom: 15
+            });
+
+            let placeType = 'restaurant';
+            const urlParams = new URLSearchParams(window.location.search);
+            //console.log(urlParams.get("order")); //get parametr value
+            if (urlParams.has('placeGroup')) {
+                console.log('placeGroup exist-->');
+                placeType = urlParams.get('placeGroup');
+            }
+
+            console.log('placeType', placeType);
+
+            var request = {
+                location: map.getCenter(),
+                radius: 8047,
+                types: [placeType]
+            }
+
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, callback);
+        }
+        function callback(results, status) {
+            let markerDetailList = [];
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                console.log(results.length);
+                for (var i = 0; i < results.length; i++) {
+                    //  console.log(results[i]);
+                    markerDetailList.push({
+                        plus_code: results[i].plus_code,
+                        rating: results[i].rating | 0,//used for truncating floating point
+                        name: results[i].name,
+                        vicinity: results[i].vicinity
+
+                    });
+                    createMarker(results[i]);
+                }
+
+                fillupMarkerDetailList(markerDetailList);
+
+            }
+        }
+
+        function fillupMarkerDetailList(markerDetailList) {
+            let html = '';
+            let htmlRating = '';
+            for (let i = 0; i < markerDetailList.length; i++) {
+                if (markerDetailList[i].rating !== undefined && markerDetailList[i].vicinity !== undefined) {
+                    htmlRating = '';
+                    for (var j = 0; j < markerDetailList[i].rating; j++) {
+                        htmlRating += '<img class="img-responsive img-rounded" src="" width="18px" height="18px" style="display: inline-block;"/>'
+                    }
+
+                    let tempHtml = `
+                                    <div class="col-sm-10">
+                                        <span class="glyphicon glyphicon-record"></span>  
+                                        <p>
+                                        <b for="lblPlusCode" class="control-label">${markerDetailList[i].name},</b>
+                                        </p>
+                                        <p>
+                                        <span for="lblPlusCode" class="control-label">${markerDetailList[i].rating}</span>
+                                        ${htmlRating}
+                                        </p>
+                                        <p for="lblPlusCode" class="control-label">${markerDetailList[i].vicinity}</p>
+                                        <p id="lblPlusCode" class="control-label">${markerDetailList[i].plus_code == null ? '' : markerDetailList[i].plus_code.compound_code}</p>                    
+                                        <hr/>
+                                    </div>
+                                    `;
+                    html += tempHtml;
+                }
+            }
+        }
+
+        function showMarkerDetail(element) {
+            console.log('showMarkerDetail-->', element);
+            console.log('showMarkerDetail-->', element.value);
+            let selectedGroup = (element.value || element.options[a.selectedIndex].value);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set("placeGroup", selectedGroup.toLowerCase()); //add or update
+            window.location.search = urlParams; //set parameters
+
+        }
+
+        function formatNumberwithDecimalPoint(num) {
+            return (Math.round(num * 100) / 100).toFixed(2);
+        }
+
+
+        //'M'==> is statute miles (default)
+        //'K'==> is kilometers
+        //'N'==> is nautical miles    
+        function distance(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1 / 180
+            var radlat2 = Math.PI * lat2 / 180
+            var theta = lon1 - lon2
+            var radtheta = Math.PI * theta / 180
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist)
+            dist = dist * 180 / Math.PI
+            dist = dist * 60 * 1.1515
+            if (unit == "K") { dist = dist * 1.609344 }
+            if (unit == "N") { dist = dist * 0.8684 }
+            return dist
+        }
+
+        function createMarker(place) {
+            //var placeLoc = place.geometry.location;
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location,
+                title: place.name
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+
+                var placeLoc = place.geometry.location;
+                // Get latitude and longitude from the geodata 
+                const latitudeFrom = 23.797911;
+                const longitudeFrom = 90.414391;
+
+                const latitudeTo = placeLoc.lat();
+                const longitudeTo = placeLoc.lng();
+
+                window.totalDistance = formatNumberwithDecimalPoint(distance(latitudeFrom, longitudeFrom, latitudeTo, longitudeTo, 'K'));//or N
+                window.currentPlace = place.place_id;
+
+
+                $('.gm-ui-hover-effect').click();
+
+                StoreGoogleMapRating.displayRating(window.currentPlace, document.getElementById("Rating_List"), function (result, event) {
+
+                    console.log('result', result);
+
+                    if (event.status) {
+                        var table = document.getElementById('filterMyReportData');
+
+                        var html = '';
+                        var htmlRating = '';
+
+                        if (result.length > 0) {
+
+                            for (var i = 0; i < result.length; i++) {
+                                for (var j = 0; j < result[i].Rating__c; j++) {
+                                    htmlRating += '<img class="img-responsive img-rounded" src="" width="18px" height="18px" style="display: inline-block;"/>'
+                                }
+                                html += `<tr>   
+                              <td>${i + 1}</td>
+                              <td>${result[i].Comment__c == null ? '' : result[i].Comment__c}</td>
+                              
+                              <td>${htmlRating}</div></td>
+
+                            </tr>`;
+                            }
+                            console.log('html-->');
+                            console.log(html);
+                            document.getElementById('filterMyReportData').innerHTML = html || '';
+                        }
+                    }
+                });
+                new google.maps.InfoWindow(
+                    {
+                        content: '<div class="d-grid gap-2 col-8 mx-auto"> <p> <b>' + place.name + '</b></p>  <p>Distance from your current location is kilometers ' + window.totalDistance + '</p> </br> <button class="center btn btn-warning" onclick="ModalButton(\'' + place.place_id + '\')">Rate me!!</button> </div>'
+
+                    }
+                ).open(map, marker);
+            });
+
+        }
+
+        function ModalButton(place_id) {
+
+            $('#myModal').show().removeClass('fade');
+
+        }
+
+        function Save() {
+            $('#myModal').hide().addClass('fade');
+            console.log(window.currentPlace);
+            console.log(document.getElementById("rating").value);
+            console.log(document.getElementById("comment").value);
+            StoreGoogleMapRating.storeRating(window.currentPlace, document.getElementById("rating").value, document.getElementById("comment").value, function (result, event) {
+
+                if (event.status) {
+
+                    var html = '';
+                    if (result.length > 0) {
+                        alert(result);
+                        window.location.reload();
+
+                    }
+                }
+            });
+        }
+
+        function CloseModal() {
+            $('#myModal').hide().addClass('fade');
+
+        }
+
+    </script>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1xeWifARijZZnIUGjQ9q9juOOBmLVILo&callback=createMap&libraries=places&v=weekly&channel=2"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+</apex:page>

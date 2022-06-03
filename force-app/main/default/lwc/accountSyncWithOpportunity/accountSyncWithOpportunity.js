@@ -5,6 +5,32 @@ import getLatestOpportunityRelatedAccounts from "@salesforce/apex/AccountSyncWit
 import syncLatestOpportunityWithAccounts from "@salesforce/apex/AccountSyncWithOpportunityController.syncLatestOpportunityWithAccounts";
 import refreshGridDummy from "@salesforce/apex/AccountSyncWithOpportunityController.refreshGridDummy";
 
+/***
+ *
+This component has child component dependency
+First, need to deploy the below components
+ldsUtils
+paginator
+reusableDataTableWithPreselect
+ * 
+
+Account object should have below fields
+
+    Opportunity_Amount__c,
+    Monthly_Recurring_Revenue__c,
+    Annual_Recurring_Revenue__c,
+    Active2__c,
+    Client_Success_Manager__c,
+    Client_Success_Manager__r.Name,
+**
+**
+**
+Opportunity object should have below fields
+
+    Monthly_Recurring_Revenue__c,
+    Annual_Recurring_Revenue__c,
+ */
+
 const BASE_URL = `https://${window.location.hostname}/`;
 
 const COLUMNS = [

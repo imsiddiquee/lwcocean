@@ -16,7 +16,7 @@ public with sharing class AccountSyncWithOpportunityController {
                     Opportunity_Amount__c,
                     Monthly_Recurring_Revenue__c,
                     Annual_Recurring_Revenue__c,
-                    Active__c,
+                    Active2__c,
                     Client_Success_Manager__c,
                     Client_Success_Manager__r.Name,
                     (
@@ -38,7 +38,7 @@ public with sharing class AccountSyncWithOpportunityController {
                         LIMIT 1
                     )
                 FROM Account
-                WHERE Active__c = TRUE
+                WHERE Active2__c = TRUE
                 ORDER BY Name
             ]) {
                 accListObj.accList.add(new AccountOpportunityWrapper(accObj));
@@ -85,8 +85,6 @@ public with sharing class AccountSyncWithOpportunityController {
     public static Boolean refreshGridDummy() {
         return true;
     }
-
-
 
     public class AccWrapperList {
         @AuraEnabled
@@ -157,7 +155,7 @@ public with sharing class AccountSyncWithOpportunityController {
             this.accountARR = String.isBlank(String.valueOf(currentAccount.Annual_Recurring_Revenue__c))
                 ? 0
                 : currentAccount.Annual_Recurring_Revenue__c;
-            this.accountActive = String.valueOf(currentAccount.Active__c);
+            this.accountActive = String.valueOf(currentAccount.Active2__c);
             this.clientSuccessManagerId = String.isBlank(currentAccount.Client_Success_Manager__c)
                 ? ''
                 : currentAccount.Client_Success_Manager__c;
