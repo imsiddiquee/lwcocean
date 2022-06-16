@@ -133,3 +133,27 @@ How to exit loop, you may avoid loop used below technique
     without loop
         numbers.every(number=>{console.log(number); return number<3})
         output==>1,2,3
+
+
+lock button for sometime
+
+<!-- https://flexiple.com/disable-button-javascript/ -->
+<html>
+  <body>
+    <input class="input" type="text" placeholder="fill me" />
+    <button class="button">Click Me</button>
+  </body>
+  <script>
+    let input = document.querySelector(".input");
+    let button = document.querySelector(".button");
+    //button.disabled = true;
+    button.addEventListener("click", stateHandle);
+
+    function stateHandle() {
+      button.disabled = true;
+      setTimeout(() => {
+        button.disabled = false;
+      }, 3000);
+    }
+  </script>
+</html>

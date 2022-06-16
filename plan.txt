@@ -859,3 +859,26 @@ check after send mail/email, is it open or not
 	below object contain mail related information it's open or not
 		object==>EmailMessage
 			field==>IsOpen
+
+lock html button for some time
+
+<!-- https://flexiple.com/disable-button-javascript/ -->
+<html>
+  <body>
+    <input class="input" type="text" placeholder="fill me" />
+    <button class="button">Click Me</button>
+  </body>
+  <script>
+    let input = document.querySelector(".input");
+    let button = document.querySelector(".button");
+    //button.disabled = true;
+    button.addEventListener("click", stateHandle);
+
+    function stateHandle() {
+      button.disabled = true;
+      setTimeout(() => {
+        button.disabled = false;
+      }, 3000);
+    }
+  </script>
+</html>
