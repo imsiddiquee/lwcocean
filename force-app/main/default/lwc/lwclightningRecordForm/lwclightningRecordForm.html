@@ -1,0 +1,27 @@
+<template>
+    <lightning-record-edit-form
+        record-id="0015g00000GPlkBAAT"
+        object-api-name="Account"        
+    >
+        <lightning-messages></lightning-messages>
+        <div class="slds-m-around_medium">
+            <lightning-input-field
+                field-name="Id"
+                value={accountId}
+            ></lightning-input-field>
+            <lightning-input-field field-name="Name"></lightning-input-field>
+            <lightning-input-field field-name="Type"></lightning-input-field>
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    type="submit"
+                    name="save"
+                    label="Create Account"
+                >
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+
+    <button class="grandaidsChildItem slds-button slds-button_success btnSubmitForClient" type="submit" onclick={handleShowChildElement} style="display: inline-block; color:white" id="btnSubmitForClient" data-title="SubmitForClient">Submit for client</button>
+</template>
