@@ -1,86 +1,94 @@
 <apex:page sidebar="false" showHeader="false">
-    <apex:slds /> 
+    <apex:slds />
     <apex:includeLightning />
 
     <html lang="en" dir="ltr">
-    <head>        
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
     </head>
 
     <body>
 
-        
-    <div class="slds-scope">
-        <!-- SPINNER -->
-            <div id="spinner" class="slds-spinner_container" >
+
+        <div class="slds-scope">
+            <!-- SPINNER -->
+            <div id="spinner" class="slds-spinner_container">
                 <div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
                     <div class="slds-spinner__dot-a"></div>
                     <div class="slds-spinner__dot-b"></div>
                 </div>
             </div>
-        <!-- / SPINNER -->
-      </div>
-      
-          <script>
+            <!-- / SPINNER -->
+        </div>
+
+        <script>
               // setTimeout(function(){ document.getElementById('spinner').className += ' slds-hide' }, 3000);
-          </script>
-      
-  
-      <button onclick="showSpinner(event)">Show</button>
-      <button onclick="hideSpinner()">Hide</button>
-  
-    
-      <div id="sessionNoteDiv">   
-      </div>
-  
-   
+        </script>
+
+
+        <button onclick="showSpinner(event)">Show</button>
+        <button onclick="hideSpinner()">Hide</button>
+
+
+        <div id="sessionNoteDiv">
+        </div>
+
+
 
     </body>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-  
-    <script type="text/javascript">
-  
-  $(document).ready(function(){
-      document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
 
-      let recIdSp ='012'; //window.location.hash.split('=');
-  
-        $Lightning.use("c:BookingFormApp", function() {
-  
-            $Lightning.createComponent("c:lwclightningRecordForm",
-                        {recordId: '0015g00000GPlkBAAT'},
-                        "sessionNoteDiv",
-                        function(cmp) {                            
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
+
+            let recIdSp = '012'; //window.location.hash.split('=');
+
+            $Lightning.use("c:BookingFormApp", function () {
+
+                $Lightning.createComponent("c:lwclightningRecordForm",
+                    { recordId: '0015g00000GPlkBAAT' },
+                    "sessionNoteDiv",
+                    function (cmp) {
+                        try {
+                            console.log('Successfully load');
+                        }
+                        catch (error) {
+                            console.log('error-->', error);
+                        }
+                        finally {
                             document.querySelector('.slds-spinner_container').classList.add('slds-hide');
                             document.querySelector('.slds-spinner_container').classList.add('slds-is-relative');
-                         }
-                    );               
+                        }
+
+                    }
+                );
+            });
+
+
         });
-  
-        
-  });
-  
-  
-  function showSpinner(e)
-  {
-      e.preventDefault();
-      
-      document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
-      document.querySelector('.slds-spinner_container').classList.remove('slds-is-relative');
-  }
-  
-  function hideSpinner()
-  {
-    document.querySelector('.slds-spinner_container').classList.add('slds-hide');
-    document.querySelector('.slds-spinner_container').classList.add('slds-is-relative');
-  }
-        
-     
-  
-  
-  
+
+
+        function showSpinner(e) {
+            e.preventDefault();
+
+            document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
+            document.querySelector('.slds-spinner_container').classList.remove('slds-is-relative');
+        }
+
+        function hideSpinner() {
+            document.querySelector('.slds-spinner_container').classList.add('slds-hide');
+            document.querySelector('.slds-spinner_container').classList.add('slds-is-relative');
+        }
+
+
+
+
+
     </script>
 
     </html>
