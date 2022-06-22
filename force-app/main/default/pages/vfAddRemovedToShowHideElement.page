@@ -1,0 +1,109 @@
+<apex:page title="show hide element" sidebar="false" showHeader="false">
+
+    <!-- https://stackoverflow.com/questions/40943251/jquery-loop-through-multiple-divs-with-next-prev-buttons -->
+
+    <html lang="en" dir="ltr">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Add removed css class to show hide element </title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+        <apex:includeLightning />
+
+        <style>
+            .hideElement {
+                display: none;
+            }
+
+            .step {
+                display: none;
+            }
+
+            div.step:first-child {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="form">
+            <div class="step">This is step 1
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+            </div>
+            <div class="step">This is step 2
+
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+            </div>
+            <div class="step">This is step 3
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+            </div>
+            <div class="step">This is step 4
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+                <div>test</div>
+            </div>
+
+            <button class="prevBtn">Prev</button>
+            <button class="nextBtn">Next</button>
+        </div>
+
+
+        <div class="clickEventClass">One</div>
+        <div class="clickEventClass hideElement">Two</div>
+        <div class="clickEventClass hideElement">Three</div>
+        <div class="clickEventClass hideElement">Four</div>
+
+
+        <script>
+            $().ready(function () {
+                // $('.clickEventClass').addClass("has-success");
+
+                $(".clickEventClass").click(function () {
+
+                    $('.clickEventClass').addClass("hideElement");
+
+                    //$(this).removeClass('hideElement');
+                });
+
+
+                $(".nextBtn").click(function () {
+                    var nextDiv = $(this).parent().find(".step:visible").next(".step");
+                    if (nextDiv.length == 0) { // wrap around to beginning
+                        nextDiv = $(this).parent().find(".step:first");
+                    }
+                    $(this).parent().find(".step").hide();
+                    nextDiv.show();
+                });
+
+                $(".prevBtn").click(function () {
+                    var prevDiv = $(this).parent().find(".step:visible").prev(".step");
+                    if (prevDiv.length == 0) { // wrap around to end
+                        prevDiv = $(this).parent().find(".step:last");
+                    }
+                    $(this).parent().find(".step").hide();
+                    prevDiv.show();
+                });
+            });
+        </script>
+
+    </body>
+
+
+
+    </html>
+</apex:page>
