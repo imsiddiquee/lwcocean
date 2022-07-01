@@ -35,6 +35,14 @@
             onselectedlookupitem={handleLookupSelectedItem}
         >
         </c-lwc-reusable-custom-lookup-comp>
+
+        <c-custom-lookup
+            obj-name="Account"
+            search-placeholder="Search Accounts"
+            icon-name="standard:account"
+            onlookupselected={handleAccountSelection}
+        >
+        </c-custom-lookup>
     </lightning-card>
     <br />
 </template>

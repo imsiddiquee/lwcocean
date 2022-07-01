@@ -84,4 +84,8 @@ export default class LwcTaskReminder extends LightningElement {
             }
         }
     }
+
+    handleAccountSelection(event) {
+        console.log("the selected record id is" + JSON.stringify(event.detail));
+    }
 }

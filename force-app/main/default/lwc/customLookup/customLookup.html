@@ -1,0 +1,78 @@
+<template>
+    <div>
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <div id="box" class={boxClass} aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                        <div
+                            class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                            role="none"
+                        >
+                            <template if:true={isValueSelected}>
+                                <div id="lookup-pill" class="slds-pill-container">
+                                    <lightning-pill
+                                        class="pillSize"
+                                        label={selectedName}
+                                        name={selectedName}
+                                        onremove={handleRemovePill}
+                                        href={href}
+                                    >
+                                        <lightning-icon icon-name={iconName} alternative-text="acc"></lightning-icon>
+                                    </lightning-pill>
+                                </div>
+                            </template>
+                            <template if:false={isValueSelected}>
+                                <div class="slds-p-top_none">
+                                    <lightning-input
+                                        label="Search when user hits the 'enter' key"
+                                        class={inputClass}
+                                        type="search"
+                                        id="input"
+                                        value={searchTerm}
+                                        onclick={handleClick}
+                                        onblur={onBlur}
+                                        onchange={onChange}
+                                        variant="label-hidden"
+                                        autocomplete="off"
+                                        placeholder={searchPlaceholder}
+                                    >
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                        <div
+                            id="listbox-id-1"
+                            class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                            role="listbox"
+                        >
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template for:each={records} for:item="record">
+                                    <li
+                                        key={record.Id}
+                                        onclick={onSelect}
+                                        data-id={record.Id}
+                                        role="presentation"
+                                        data-name={record.Name}
+                                    >
+                                        <span
+                                            class="slds-lookup__item-action slds-lookup__item-action--label"
+                                            role="option"
+                                        >
+                                            <lightning-icon
+                                                class="slds-icon slds-icon--small slds-icon-text-default"
+                                                icon-name={iconName}
+                                                alternative-text={objName}
+                                                size="small"
+                                            ></lightning-icon>
+                                            <span class="slds-truncate">{record.Name}</span>
+                                        </span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
