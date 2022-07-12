@@ -1,0 +1,25 @@
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.section_heading{
+    font-size: 1.25rem;
+    color: #1a3179;
+}
+
+.summary_list li:before {
+    content: "\2724";
+    position: absolute;
+    left: 0;
+}
+.font16{
+    font-size: 1rem;
+}
+
+div.colHover:hover {
+    /* background-color:red; */
+    border:1px solid whitesmoke;
+}

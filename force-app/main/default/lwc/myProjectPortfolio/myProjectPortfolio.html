@@ -1,0 +1,40 @@
+<template>
+    <section>
+        <h2 class="section_heading slds-var-p-bottom_medium">PORTFOLIO</h2>
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_1-of-12"></div>
+            <div class="slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_10-of-12">
+                <div class="slds-grid slds-wrap">
+                    <template for:each={details} for:item="item">
+                        <div
+                            onclick={showModalBox}
+                            key={item.id}
+                            data-id={item.id}
+                            data-item={item.label}
+                            class="                                
+                                colHover
+                                slds-col
+                                slds-large-size_3-of-12
+                                slds-medium-size_4-of-12
+                                slds-size_12-of-12
+                                slds-var-m-right_large
+                                slds-var-m-bottom_large
+                            "
+                            style="cursor: pointer"
+                        >
+                            <lightning-card title={item.label} icon-name={item.icon}>
+                                <div class="slds-var-p-horizontal_small">
+                                    <img class="img-fluid" src={item.image} alt={item.label} />
+                                </div>
+                            </lightning-card>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_1-of-12"></div>
+        </div>
+
+        <c-my-project-portfolio-description></c-my-project-portfolio-description>
+    </section>
+</template>
