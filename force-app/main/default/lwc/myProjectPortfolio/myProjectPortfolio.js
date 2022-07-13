@@ -12,7 +12,7 @@ export default class MyProjectPortfolio extends LightningElement {
 
         let selectedItem = this.details.find((p) => p.label === event.currentTarget.dataset.item);
 
-        console.log("show modal box", selectedItem);
+        //console.log("show modal box", selectedItem);
         //this.isShowModal = true;
 
         this.template.querySelector("c-my-project-portfolio-description").details = selectedItem;

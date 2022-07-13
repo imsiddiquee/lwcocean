@@ -9,21 +9,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Freelancer - Start Bootstrap Theme</title>
+        <title>Project preview</title>
         <!-- Favicon-->
 
         <link rel="icon" type="image/x-icon" href="{!URLFOR($Resource.ProjectPreview)}/favicon.ico" />
 
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" crossorigin="anonymous"
-        />
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" crossorigin="anonymous"
-        />
 
         <apex:slds />
-
         <apex:includeLightning />
 
     </head>
@@ -31,24 +23,67 @@
     <body>
 
 
+        <div class="slds-scope">
+            <!-- SPINNER -->
+            <div id="spinner" class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            <!-- / SPINNER -->
+        </div>
+
+
         <div>
             <div id="bookingFormDiv">
-
             </div>
         </div>
 
 
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 
 
         <script>
 
-            $Lightning.use("c:BookingFormApp", function () {
-                $Lightning.createComponent("c:myProjectContainer",
-                    {},
-                    "bookingFormDiv",
-                    function (cmp) { }
-                );
+            // $Lightning.use("c:BookingFormApp", function () {
+            //     $Lightning.createComponent("c:myProjectContainer",
+            //         {},
+            //         "bookingFormDiv",
+            //         function (cmp) { }
+            //     );
+            // });
+
+
+
+
+            $(document).ready(function () {
+                document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
+
+
+
+                $Lightning.use("c:BookingFormApp", function () {
+
+                    $Lightning.createComponent("c:myProjectContainer",
+                        {},
+                        "bookingFormDiv",
+                        function (cmp) {
+                            try {
+                               // console.log('Successfully load');
+                            }
+                            catch (error) {
+                                console.log('error-->', error);
+                            }
+                            finally {
+                                document.querySelector('.slds-spinner_container').classList.add('slds-hide');
+                                document.querySelector('.slds-spinner_container').classList.add('slds-is-relative');
+                            }
+
+                        }
+                    );
+                });
+
+
             });
 
         </script>

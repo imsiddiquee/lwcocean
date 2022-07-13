@@ -12,7 +12,7 @@ export default class MyProjectPortfolioDescription extends LightningElement {
     // }
 
     @api showModal() {
-        console.log("show modal", JSON.stringify(this.details));
+        //  console.log("show modal", JSON.stringify(this.details));
         this.isShowModal = true;
     }
 
