@@ -2,6 +2,10 @@
     <section>
         <h2 class="section_heading slds-var-p-bottom_medium">PORTFOLIO</h2>
 
+        <template if:true={isLoading}>
+            <c-lightning-loader spinner-text="data loading"></c-lightning-loader>
+        </template>
+
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_1-of-12"></div>
             <div class="slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_10-of-12">

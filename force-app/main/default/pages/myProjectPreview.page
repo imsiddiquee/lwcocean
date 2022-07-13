@@ -41,26 +41,11 @@
         </div>
 
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-
 
         <script>
 
-            // $Lightning.use("c:BookingFormApp", function () {
-            //     $Lightning.createComponent("c:myProjectContainer",
-            //         {},
-            //         "bookingFormDiv",
-            //         function (cmp) { }
-            //     );
-            // });
-
-
-
-
-            $(document).ready(function () {
+            (function () {
                 document.querySelector('.slds-spinner_container').classList.remove('slds-hide');
-
-
 
                 $Lightning.use("c:BookingFormApp", function () {
 
@@ -69,7 +54,7 @@
                         "bookingFormDiv",
                         function (cmp) {
                             try {
-                               // console.log('Successfully load');
+                                // console.log('Successfully load');
                             }
                             catch (error) {
                                 console.log('error-->', error);
@@ -83,9 +68,7 @@
                     );
                 });
 
-
-            });
-
+            })();
         </script>
 
     </body>
