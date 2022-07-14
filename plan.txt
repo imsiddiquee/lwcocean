@@ -882,3 +882,12 @@ lock html button for some time
     }
   </script>
 </html>
+
+
+get input control/lightning-input/lightning-input-rich-text data on js
+
+<lightning-input-rich-text
+data-id="taskComment"
+></lightning-input-rich-text>
+
+this.template.querySelector(`[data-id="taskComment"]`).value
