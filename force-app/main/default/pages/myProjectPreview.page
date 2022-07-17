@@ -1,4 +1,4 @@
-<apex:page title="Project Preview" sidebar="false" showHeader="false">
+<apex:page title="Project Preview" sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
 
     <!-- <apex:slds /> -->
 
@@ -12,7 +12,9 @@
         <title>Project preview</title>
         <!-- Favicon-->
 
-        <link rel="icon" type="image/x-icon" href="{!URLFOR($Resource.ProjectPreview)}/favicon.ico" />
+        <link rel="icon" type="image/png" href="" />
+        <!-- <link rel="icon" type="image/x-icon" href="" /> -->
+        <!-- <link rel="icon" type="image/x-icon" href="{!URLFOR($Resource.ProjectPreview)}/favicon.ico" /> -->
 
 
         <apex:slds />
@@ -55,6 +57,10 @@
                         function (cmp) {
                             try {
                                 // console.log('Successfully load');
+                                console.log('from lwc', document.querySelector('c-my-project-container').favicon);
+                                const linkElement = document.querySelector('link[rel=icon]');
+                                linkElement.href = document.querySelector('c-my-project-container').favicon;
+
                             }
                             catch (error) {
                                 console.log('error-->', error);

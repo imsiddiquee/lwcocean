@@ -1,11 +1,13 @@
 import MYPROJECTPIC from "@salesforce/resourceUrl/myProjectPic";
 import ProjectPreview from "@salesforce/resourceUrl/ProjectPreview";
 
+export const SITE_FAVICON = ProjectPreview + "/img/portfolio/cabin.png";
+
 export const HEADER_DETAILS = {
-    projectTitle: "GRANDAIDS",
-   // link: "https://www.veraliving.com.au/",
-   // label: "Let us be part of your journey home",
-   // image: MYPROJECTPIC + "/projectLogo.png"
+    projectTitle: "GRANDAIDS"
+    // link: "https://www.veraliving.com.au/",
+    // label: "Let us be part of your journey home",
+    // image: MYPROJECTPIC + "/projectLogo.png"
 };
 
 export const PROJECT_SUMMARY = {
