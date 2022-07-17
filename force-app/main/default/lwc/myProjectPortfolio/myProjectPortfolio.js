@@ -6,11 +6,11 @@ export default class MyProjectPortfolio extends LightningElement {
     isLoading = false;
 
     showModalBox(event) {
-        this.isLoading = true;
+        //this.isLoading = true;
+        //this.stateHandle(event.currentTarget.dataset.item);
 
         let selectedItem = this.details.find((p) => p.label === event.currentTarget.dataset.item);
 
-        this.isLoading = false;
         this.template.querySelector("c-my-project-portfolio-description").details = selectedItem;
         this.template.querySelector("c-my-project-portfolio-description").showModal();
     }
@@ -18,4 +18,14 @@ export default class MyProjectPortfolio extends LightningElement {
     // hideModalBox() {
     //     this.isShowModal = false;
     // }
+
+    stateHandle(itemLabel) {
+        setTimeout(() => {
+            let selectedItem = this.details.find((p) => p.label === itemLabel);
+
+            this.isLoading = false;
+            this.template.querySelector("c-my-project-portfolio-description").details = selectedItem;
+            this.template.querySelector("c-my-project-portfolio-description").showModal();
+        }, 3000);
+    }
 }
