@@ -23,3 +23,8 @@ div.colHover:hover {
     /* background-color:red; */
     border:1px solid whitesmoke;
 }
+
+.myCardBorder{    
+    --sds-c-card-color-border: #aadae9d8;    
+    
+}
