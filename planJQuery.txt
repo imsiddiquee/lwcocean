@@ -48,3 +48,19 @@ attribute selector in jQuery
         $('div[title]').filter(function(){
                 return $(this).attr('title').toLowerCase()=='divtitle';
         }).css();
+
+
+on js removed time from datetime
+removed time part
+from datetime removed time part
+
+            function dateWithoutTime(myDateTime) {
+                let currentDate = new Date(myDateTime);
+                let currentTime = new Date(currentDate.getTime());
+                currentTime.setHours(0, 0, 0, 0);
+                return currentTime;
+
+                // let yourDate = new Date("January 13, 2021 15:00:00");
+                // var date2 = new Date(yourDate.getTime());
+                // date2.setHours(0, 0, 0, 0);
+            }
