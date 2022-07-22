@@ -43,10 +43,14 @@
                         </div>
                     </section>
 
+                    <br />
                     <section>
-                        <h4>{details.TECHNOLOGIES_USED.HEADING}</h4>
-                        <template for:each={details.TECHNOLOGIES_USED.LIST} for:item="tech">
-                            <div key={tech} class="tech_tile">{tech}</div>
+                        <template if:true={details.TECHNOLOGIES_USED}>
+                            <h4>{details.TECHNOLOGIES_USED.HEADING}</h4>
+                            <template for:each={details.TECHNOLOGIES_USED.LIST} for:item="tech">
+                                <!-- <div key={tech} class="tech_tile">{tech}</div> -->
+                                <lightning-badge key={tech} label={tech} class="slds-badge_inverse"></lightning-badge>
+                            </template>
                         </template>
                     </section>
                 </div>
