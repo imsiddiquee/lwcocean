@@ -42,6 +42,13 @@
                             <p class="font16">{details.description}</p>
                         </div>
                     </section>
+
+                    <section>
+                        <h4>{details.TECHNOLOGIES_USED.HEADING}</h4>
+                        <template for:each={details.TECHNOLOGIES_USED.LIST} for:item="tech">
+                            <div key={tech} class="tech_tile">{tech}</div>
+                        </template>
+                    </section>
                 </div>
 
                 <!-- modal footer start-->

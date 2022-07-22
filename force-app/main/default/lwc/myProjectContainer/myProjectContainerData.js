@@ -27,7 +27,19 @@ export const PORTFOLIO = [
         image: ProjectPreview + "/img/portfolio/cabin.png",
         icon: "standard:user",
         description:
-            "This feature holds information like emergency contacts , important dates and payment information. The user can also view and rate goals and outcomes from “My Goals” and “My Outcomes”."
+            "This feature holds information like emergency contacts , important dates and payment information. The user can also view and rate goals and outcomes from “My Goals” and “My Outcomes”.",
+
+        TECHNOLOGIES_USED: {
+                HEADING: 'Technologies used',
+                LIST: [
+                    "Java",
+                    "Python",
+                    "Javascript",
+                    "Webpack",
+                    "HTML5/LESS",
+                    "MySQL",
+                ]
+            },
     },
     {
         label: "Dashboard",
@@ -70,3 +82,5 @@ export const PORTFOLIO = [
             "The my goals feature consists of all the goals list with a description with them. Each of the goal’s list with a rating button per goal. All goals can also be reset by the “Rest My Goals” button at the bottom."
     }
 ];
+
+
