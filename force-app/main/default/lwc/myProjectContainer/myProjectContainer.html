@@ -5,9 +5,12 @@
         </div>
         <div class="slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_10-of-12">
             <div class="wrapper">
-                <div class="slds-var-p-around_medium header_color">
+                <!-- <div class="slds-var-p-around_medium header_color"> -->
+                <div class={headerColorStyle}>
                     <c-my-project-header header-details={HEADER_DETAILS}></c-my-project-header>
+                   
                 </div>
+                <hr class="slds-var-m-around_xxx-small"/>
 
                 <div class="slds-var-p-around_medium">
                     <c-my-project-summary details={PROJECT_SUMMARY}></c-my-project-summary>

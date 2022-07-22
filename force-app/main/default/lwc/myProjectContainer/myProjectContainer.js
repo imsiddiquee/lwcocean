@@ -27,4 +27,9 @@ export default class MyProjectContainer extends LightningElement {
     HEADER_DETAILS = PROJECT_DATA.HEADER_DETAILS;
     PROJECT_SUMMARY = PROJECT_DATA.PROJECT_SUMMARY;
     PORTFOLIO = PROJECT_DATA.PORTFOLIO;
+
+    get headerColorStyle()
+    {        
+        return 'slds-var-p-around_medium '+PROJECT_DATA.HEADER_DETAILS.headerColorStyle;
+    }
 }

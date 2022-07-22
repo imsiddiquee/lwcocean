@@ -2,8 +2,10 @@
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
  }
  .header_color{
-     /* background: #060b1b;
-     color: #7081b9; */
+     background: #060b1b;
+     color: #7081b9;
+ }
+ .header_color_white{
 
      background: white;
      color: black;
